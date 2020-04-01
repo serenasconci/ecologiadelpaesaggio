@@ -51,8 +51,57 @@ covids <- ppp(lon,lat,c(-180,180), c(-90,90))
 
 d <- density(covids)
 plot(d)
-#per inserie i punti
+
+##########################per inserie i punti: POINTS PATTERN2
+#pacchetti utilizzati
+install.packages("rgdal")
+library(rgdal)
+
 points(covids,pch=19)
 plot(d)
 points(covid)
+
+#Save the .RData
+
+setwd("C:/lab")
+
+# carichiamo i point pattern in Rdata
+load(".RData")
+
+#lista dei vari file
+ls()
+library(spatstat)
+plot(d)
+#cambiare la gamma dei colori: palette(in questo caso i minimi valori verranno rappresentati in giallo, i massimi in rosso)
+#(100) indica le gradazioni
+cl <- colorRampPalette(c('yellow','orange','red')) (100)
+plot(d, col=cl)
+
+#esercizio: plot della mappa della densità dal verde al blu.
+cl <- colorRampPalette(c('green','yellow','blue')) (150)
+plot(d,col=cl)
+
+#per aggiungere i punti del covid si utilizza points()
+points(covids)
+
+#caricare dei dati dall'esterno. Inserire i confini dei vari stati.
+library(rgdal)
+
+coastlines <- readOGR("ne_10m_coastline.shp")
+
+plot(coastlines, add=T)
+#add serve ad aggiungere al plot precedente il nuovo plot, ovvero le coastlines.
+
+#esercizio: plot della mappa di densità con una nuova colorazione ed aggiunta delle coastlines.
+plot(d)
+cl <- colorRampPalette(c('yellow','orange','red')) (100)
+plot(d,col=cl)
+points(covids)
+plot(coastlines, add=T)
+
+
+
+
+
+
 
