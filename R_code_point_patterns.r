@@ -1,7 +1,7 @@
 ##################CODICE PER ANALISI DEI POINT PATTERNS
 
 install.packages("ggplot2")
-#library(ggplot2) oppure require(ggplot2)
+# per richiamare il pacchetto library() oppure require()
 install.packages("spatstat")
 
 setwd("C:/lab")
@@ -32,7 +32,7 @@ plot(covid$country,covid$cases,las=3,cex.lab=0.5, cex.axis=0.5)
 data(mpg)
 head(mpg)
 
-#ggplot di esempio: data, aes (aestethics: variabili che omporranno l'estetica finale del grafico), tipo di geometria 
+#ggplot di esempio: data, aes (aestethics: variabili che comporranno l'estetica finale del grafico), tipo di geometria 
 ggplot(mpg,aes(x=displ,y=hwy))+geom_point()
 #cambio di geometria, linee
 ggplot(mpg,aes(x=displ,y=hwy))+geom_line()
