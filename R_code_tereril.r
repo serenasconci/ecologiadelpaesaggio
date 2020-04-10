@@ -5,8 +5,8 @@ library(raster)
 
 setwd("C:/lab")
 
-#<-nome all'immagine, è preferibile in questo caso inserire anche l'anno
-#brick() importa un'immagine satellitare con tutte le bande
+#il simbolo <- da il nome all'immagine, è preferibile in questo caso inserire anche l'anno
+#brick() importa un'immagine satellitare con tutte le bande su R 
 
 p224r63_2011 <- brick("p224r63_2011_masked.grd")
 
@@ -18,16 +18,17 @@ plot(p224r63_2011)
 
 setwd("C:/lab")
 
-#load() ricarica il file salvato in precedenza
+#load() ricarica il file salvato in precedenza, va inserito il nome del file tra virgolette
 load("teleril.RData")
 
+#lista dei nomi dei vari file
 ls()
 
 library(raster)
 
 plot(p224r63_2011)
 
-#prime tre bande sono parte del visibile
+#prime tre bande fanno parte del visibile
 # B1: blue
 # B2: green
 # B3: red
@@ -38,9 +39,10 @@ plot(p224r63_2011)
 
 cl <- colorRampPalette(c('black','grey','light grey'))(100) 
 #con 100 si intendono le microclassi di colori dal nero al grigio chiaro
+#con col si inserisce la palette 
 plot(p224r63_2011, col=cl)
 
-#Esercizio: inserire 5 microclassi,ovviamente renderanno l'immagine più sgranata
+#Esercizio: inserire 5 microclassi, ovviamente l'immagine sarà più sgranata
 cllow <- colorRampPalette(c('black','grey','light grey'))(5) 
 plot(p224r63_2011, col=cllow)
 
