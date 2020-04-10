@@ -86,8 +86,8 @@ dev.off()
 # B2: green - 2
 # B3: red - 3
 # B4: near infrared (nir) - 4
-plotRGB(p224r63_2011, r=3, g=2, b=1) , stretch="Lin")
-#per allargare i colori stretch() "Lin"= lineare, il più utilizzato.
+plotRGB(p224r63_2011, r=3, g=2, b=1) 
+#per allargare i colori stretch() stretch="Lin"= lineare, il più utilizzato.
 plotRGB(p224r63_2011, r=3, g=2, b=1, stretch="Lin")
 
 #nir
