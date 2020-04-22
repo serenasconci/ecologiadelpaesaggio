@@ -99,9 +99,81 @@ plot(d,col=cl)
 points(covids)
 plot(coastlines, add=T)
 
+# ESERCIZIO: Caricare il dato .RData workspace point_pattern.RData con la funzione load() e creare un grafico della mappa di densità.
+library(spatstat)
+library(rgdal) #per poter inserire le coastlines
 
+ setwd("~/lab/")
+load("point_pattern2.RData")
+ls()
 
+cl5 <- colorRampPalette(c('blue', 'purple', 'red')) (200) 
+plot(d, col=cl5, main="density")
+points(covids)
+coastlines <- readOGR("ne_10m_coastline.shp")
+plot(coastlines, add=T)
 
+#interpolazione
+head(covid)
+#per isualizzare l'intera tabella
+View(covid)
 
+#marks del point pattern
+marks(covids) <- covid$cases
+#Smooth() mappa continua dei vari punti di covid in base ai casi
+s <- Smooth(covids)
+#s è la mappa dei casi
+plot(s)
+
+#Esercizio:plot(s) with points and coastlines
+cl5 <- colorRampPalette(c('cyan', 'purple', 'red')) (200) 
+plot(s, col=cl5, main="estimate of cases")
+points(covids)
+coastlines <- readOGR("ne_10m_coastline.shp")
+plot(coastlines, add=T)
+#chiudere il grafico
+dev.off()
+
+##### mappa finale
+par(mfrow=c(2,1))
+
+# densità dei punti di covid
+cl5 <- colorRampPalette(c('cyan', 'purple', 'red')) (200) 
+plot(d, col=cl5, main="density")
+points(covids)
+coastlines <- readOGR("ne_10m_coastline.shp")
+plot(coastlines, add=T)
+
+# interpolazione del numero di casi di covid
+cl5 <- colorRampPalette(c('cyan', 'purple', 'red')) (200) 
+plot(s, col=cl5, main="estimate of cases")
+points(covids)
+coastlines <- readOGR("ne_10m_coastline.shp")
+plot(coastlines, add=T)
+
+ #la maggior parte dei casi sono stati presi in situ
+
+########## San Marino
+
+setwd("C:/lab")
+load("Tesi.RData")
+head(Tesi)
+
+#plot della densità
+library(spatstat)
+#si allega la tabella
+attach(Tesi)
+summary(Tesi)
+
+#point pattern: x(lon), y(lat), c(xmin, xmax) , c(ymin, ymax)
+
+#x varia da 12.42 a 12. 46
+#y varia da 43.91 a 43.94
+
+Tesippp <- ppp(Longitude, Latitude, c(12.41, 12.47), c(43.9,43.95))
+#dendità
+dT <-  density(Tesippp)
+plot(dT)
+points(Tesippp, col="black")
 
 
