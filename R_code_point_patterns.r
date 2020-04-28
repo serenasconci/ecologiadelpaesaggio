@@ -171,9 +171,86 @@ summary(Tesi)
 #y varia da 43.91 a 43.94
 
 Tesippp <- ppp(Longitude, Latitude, c(12.41, 12.47), c(43.9,43.95))
-#dendità
+#densità
 dT <-  density(Tesippp)
 plot(dT)
 points(Tesippp, col="black")
+
+##################### DAY 3
+
+
+setwd("C:/lab/")
+#le virgolette servono a caricare file esterni
+load("sanmarino.RData")
+ls()
+#dT:mappa di densità ; Tesi: dataset originale ; Tesippp: point pattern (Longitudine e Latitudine) 
+
+#associare i valori che vogliamo stimare nello spazio (interpolazione)
+
+library(spatstat)
+#required(): altro modo per richiamare il pacchetto
+
+plot(dT)
+points(Tesippp, col="green")
+#la densità è direttamente proporzionata ai prati aridi 
+
+head(Tesi)
+
+#associa i valori della variabile al point pattern marks()
+#prendere i singoli punti di campionamento ed associarli ai singoli punti del point pattern, in questo caso species richness
+marks(Tesippp) <- Tesi$Species_richness
+
+#per vedere l'utilizzo della singola funzione va inserito su R il nome della funzione
+
+#interpolazione: 
+interpol <- Smooth(Tesippp)
+#plottare la mappa ed inserire i punti
+plot(interpol)
+points(Tesippp, col="green")
+
+#i valori di richezza specifica piu bassi sono nella parte a nord e sud ovest del data set, più alti ovest e sud-est (RISCRIVI CON REGISTRAZIONE)
+
+library(rgdal) # per leggere i file vettoriali
+sanmarino <- readOGR("San_Marino.shp")
+
+plot(sanmarino)
+
+#per aggiungere mappa interpol va aggiunto add=TRUE
+plot(interpol, add=TRUE)
+#aggiungere i punti
+points(Tesippp,col="green")
+
+plot(sanmarino, add=TRUE)
+#Esercizio:plot multiframe di densità e interpolazione
+#par() crea un multiframe
+par(mfrow=c(2,1))
+#densità
+plot(dT,main="Density of points")
+points(Tesippp, col="black")
+#interpolazione
+plot(interpol, main="Estimate of species richness")
+points(Tesippp, col="black")
+
+#main= ; inserisce il titolo al grafico
+
+#Esercizio::plot multiframe di densità e interpolazione con due colonne ed una riga 
+par(mfrow=c(1,2))
+#densità
+plot(dT,main="Density of points")
+points(Tesippp, col="black")
+#interpolazione
+plot(interpol, main="Estimate of species richness")
+points(Tesippp, col="black")
+
+
+
+
+
+
+
+
+
+
+
 
 
