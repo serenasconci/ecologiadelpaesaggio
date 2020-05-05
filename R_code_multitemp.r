@@ -103,6 +103,60 @@ View(output)
 
 library(ggplot2)
 
+##############DAY2
+setwd("C:/lab")
+
+load("defor.RData")
+
+ls()
+#richiamare le librerie
+library(raster)
+
+#mappa multitemporale
+par(mfrow=c(1,2))
+cl <- colorRampPalette(c('black','green'))(100) # 
+plot(d1c$map, col=cl)
+plot(d2c$map, col=cl)
+
+library(ggplot2)
+#grafico
+#histograms of the % cover before deforestation
+ggplot(output, aes(x=cover, y=before, color=cover)) +
+geom_bar(stat="identity", fill="white")
+#identity: si prendono direttamente i valori di copertura
+ 
+
+#ESERCIZIO: % cover after deforestation
+ggplot(output, aes(x=cover, y=after, color=cover)) +
+geom_bar(stat="identity", fill="white")
+
+#plot di entrambi gli istogrammi
+
+install.packages("gridExtra")
+library(gridExtra) #o require()
+
+#ESERCIZIO: use grid.arrange to plot the two graphs
+#prende i vari plot e li mette insieme in un unico grafico, ha la stessa funzione del par()
+#grid.arrange(plot1, plot2, nrow=1)
+
+grafico1 <- ggplot(output, aes(x=cover, y=before, color=cover)) + 
+geom_bar(stat="identity", fill="white")
+
+grafico2 <- ggplot(output, aes(x=cover, y=after, color=cover)) + 
+geom_bar(stat="identity", fill="white")
+
+
+grid.arrange(grafico1, grafico2, nrow=1)
+
+
+
+
+
+
+
+
+
+
 
 
 
