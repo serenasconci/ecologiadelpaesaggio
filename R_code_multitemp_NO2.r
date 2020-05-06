@@ -58,3 +58,32 @@ plot(EN12, col=cl)
 plot(EN13, col=cl)
 
 #plot ( EN01, EN02, EN03, EN04, EN05, EN06, EN07, EN08, EN09, EN10, EN11, EN12, col=cl)
+
+library(raster)
+
+setwd("~/lab/esa_no2")
+# put all files into the folder 
+
+rlist=list.files(pattern=".png", full.names=T) 
+
+#save raster into list
+
+#con lapply
+list_rast=lapply(rlist, raster)
+
+#con ciclo for
+list_rast=list()
+for(i in 1:length(rlist)){
+  r=raster(rlist[[i]])
+  list_rast[[i]]=r
+}
+
+
+
+
+
+
+
+
+
+
