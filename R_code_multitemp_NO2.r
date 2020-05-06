@@ -78,10 +78,43 @@ for(i in 1:length(rlist)){
   list_rast[[i]]=r
 }
 
+####### DAY 2
 
+setwd("C:/lab")
 
+#caricare il dato precedente con load()
+load("NO2.RData")
 
+ls()
 
+#importare tutti i dati insieme
+#utilizza un'intera lista di dati al contrario di raster
+
+setwd("C:/lab/esa_no2")
+
+#lista dei files che hanno una certa configurazione (pattern) in queso caso .png
+rlist <- list.files(pattern=".png")
+
+rlist
+#fa vedere tutti i file .png
+
+#lapply() serve per applicare una funzione su una lista o un vettore, cioè una serie di elementi
+#applicare alla lista rlist la funzione raster
+
+listafinale <- lapply(rlist, raster)
+
+#stack, crea un'immagine unica con tutte e 13 le immagini
+EN <- stack(listafinale)
+
+cl <- colorRampPalette(c('red','orange','yellow'))(100) 
+
+plot(EN, col=cl)
+
+#Passaggi
+#creare una cartella con tutti i files
+#lista dei file
+#importare la lista
+#fare uno stack di tutte le bande importate in una singola immagine
 
 
 
