@@ -1,28 +1,40 @@
-#ciao
-#
-#PRIMO CODICE R ECOLOGIA DEL PAESAGGIO
+#####PRIMO CODICE R ECOLOGIA DEL PAESAGGIO
+
+#per installare i pacchetti 
 install.packages(sp)
+#per richiamare i pacchetti library() o require()
 library(sp)
-#require(sp) altro comando per far partire librerie 
+#require(sp) 
 
 data(meuse)
+#richiama i dati da usare (data set)
 
 head(meuse)
+#fa vedere le prime righe del data set
+
 names(meuse)
+#mostra il nome delle variabili
 
 summary(meuse)
+#restituisce le info per il data set
 
 pairs(meuse)
 pairs(~ cadmium + copper + lead , data = meuse)
-#esercizio aggiungere lo zinco
+
+#ESERCIZIO: aggiungere lo zinco
 pairs(~ cadmium + copper + lead + zinc , data = meuse)
 
 pairs(meuse[,3:6])
+#richiama le variabili senza scrivere i nomi ma indicando le posizioni
+#viene prodotta una matrice di grafici a dispersione
 pairs(meuse[,3:6] col="red")
-
+#per decidere il colore si utilizza il comando col mettendo tra virgolette il colore
 pairs(meuse[,3:6] col="red" , pch=19)
+#per cambiare il tipo di punto nel grafico si utilizza il comando pch
 pairs(meuse[,3:6], col="red", pch=19, cex=3,main="Primo pairs")
-
+# cex (character exageration) serve per regolare le dimensioni dei caratteri
+#cex < 1 piccole dimensioni, cex > 1 dimensioni maggiori
+#il comando main permette di inserire il titolo
 
 panel.correlations <- function(x, y, digits=1, prefix="", cex.cor)
 {
