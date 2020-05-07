@@ -1,28 +1,31 @@
 # R spatial: funzioni spaziali in Ecologia del paesaggio
 
-#library(): richiamo il pacchetto
 library(sp)
+#richiamo il pacchetto
+ 
+data(meuse)
+#per richiamare i dati
 
- #per richiamare i dati
- data(meuse)
+head(meuse)
+#fa vedere le prime sei righe
  
- #head():fa vedere le prime sei righe
- head(meuse)
+attach(meuse)
+#il database è collegato al percorso di ricerca R 
+#è possibile accedere agli oggetti nel database semplicemente assegnandone il nome
+
+plot(cadmium,lead,col="red",pch=19, cex=2)
+#pch=point character  cex=character exageration
+
+#ESERCIZIO: rame e zinco, carattere triangolo e colore verde
+plot(copper,zinc, col="green",pch=17,cex=2)
  
- #attach(): blocca 
- attach(meuse)
- 
- #pch=point character  cex=character exageration
- plot(cadmium,lead,col="red",pch=19, cex=2)
- 
- #esercizio: rame e zinco, carattere triangolo e colore verde
- plot(copper,zinc, col="green",pch=17,cex=2)
- 
- #per cambiare etichette del grafico
 plot(copper,zinc, col="green",pch=17,cex=2, xlab="rame",ylab="zinco")
+#per cambiare etichette del grafico xlab e ylab, il nome va tra virgolette
 
-#multipanelo multiframe
+#multipanel o multiframe
 par(mfrow=c(1,2))
+#row=riga
+#vanno inseritisuccessivamente i plot dei due grafici
 plot(cadmium,lead,col="red",pch=19, cex=2)
 plot(copper,zinc, col="green",pch=17,cex=2)
 
@@ -44,3 +47,9 @@ plot(meuse)
 
 #plottare i dati spazialmente
 spplot(meuse,"zinc")
+
+#vettore: quando si ripetono numeri o caratteri
+
+#cran mirror: Software unico ma viene progettato in tutto il mondo
+
+
