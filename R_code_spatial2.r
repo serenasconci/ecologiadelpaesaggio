@@ -23,7 +23,7 @@ bubble(meuse,"zinc")
 #ESERCIZIO: bubble del rame, colorato di rosso
 bubble(meuse,"copper",col="red")
 
-#foraminiferi (sofia),carbon capture (Marco)
+#foraminiferi (Sofia), carbon capture (Marco)
 foram <- c(10, 20, 35, 55, 67, 80)
 carbon <- c(5, 15, 30, 70, 85, 99)
 plot(foram,carbon,col="green",cex=2,pch=19)
