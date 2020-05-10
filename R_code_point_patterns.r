@@ -4,13 +4,17 @@ install.packages("ggplot2")
 # per richiamare il pacchetto library() oppure require()
 install.packages("spatstat")
 
+#pacchetti utilizzati in questa lezione
+library(ggplot2)
+library(spatstat)
+
 setwd("C:/lab")
 
 #per importare i dati
 covid <- read.table("covid_agg.csv", head=T)
 
-#head() fa visualizzare le prime righe 
 head(covid)
+#per visualizzare le prime righe
 
 plot(covid$country,covid$cases)
 #attach() in questo modo si evita il $.
@@ -20,8 +24,8 @@ plot(country,cases)
 plot(covid$country,covid$cases,las=0) #etichette parallele (labels)
 plot(covid$country,covid$cases,las=1) #etichette orizzontali
 plot(covid$country,covid$cases,las=2)#etichette perpendicolari all'asse
-#las serve per cambiare le etichette
 plot(covid$country,covid$cases,las=3) #etichette verticali
+#las=n serve per cambiare il verso delle etichette
 
 #cex:character exageration
 plot(covid$country,covid$cases,las=3,cex.lab=0.5, cex.axis=0.5)
@@ -47,7 +51,7 @@ ggplot(covid,aes(x=lon,y=lat,size=cases))+geom_point()
 library(spatstat)
 #creare data set per spatstat
 attach(covid)
-covids <- ppp(lon,lat,c(-180,180), c(-90,90))
+covids <- ppp(lon, lat, c(-180,180), c(-90,90))
 
 d <- density(covids)
 plot(d)
@@ -57,7 +61,7 @@ plot(d)
 install.packages("rgdal")
 library(rgdal)
 
-points(covids,pch=19)
+points(covids, pch=19)
 plot(d)
 points(covid)
 
@@ -65,34 +69,36 @@ points(covid)
 
 setwd("C:/lab")
 
-# carichiamo i point pattern in Rdata
 load(".RData")
+# per caricare i point pattern in Rdata
 
-#lista dei vari file
 ls()
+# fa vedere la lista dei vari file
+
 library(spatstat)
 plot(d)
-#cambiare la gamma dei colori: palette(in questo caso i minimi valori verranno rappresentati in giallo, i massimi in rosso)
-#(100) indica le gradazioni
+
 cl <- colorRampPalette(c('yellow','orange','red')) (100)
 plot(d, col=cl)
+#per cambiare la gamma dei colori: palette(in questo caso i minimi valori verranno rappresentati in giallo, i massimi in rosso)
+#(100) indica le varie gradazioni
 
-#esercizio: plot della mappa della densità dal verde al blu.
+#ESERCIZIO: plot della mappa della densità dal verde al blu.
 cl <- colorRampPalette(c('green','yellow','blue')) (150)
 plot(d,col=cl)
 
 #per aggiungere i punti del covid si utilizza points()
 points(covids)
 
-#caricare dei dati dall'esterno. Inserire i confini dei vari stati.
+#caricare dei dati dall'esterno 
 library(rgdal)
-
+# per inserire i confini dei vari stati.
 coastlines <- readOGR("ne_10m_coastline.shp")
 
 plot(coastlines, add=T)
 #add serve ad aggiungere al plot precedente il nuovo plot, ovvero le coastlines.
 
-#esercizio: plot della mappa di densità con una nuova colorazione ed aggiunta delle coastlines.
+#ESERCIZIO: plot della mappa di densità con una nuova colorazione ed aggiunta delle coastlines
 plot(d)
 cl <- colorRampPalette(c('yellow','orange','red')) (100)
 plot(d,col=cl)
@@ -103,7 +109,7 @@ plot(coastlines, add=T)
 library(spatstat)
 library(rgdal) #per poter inserire le coastlines
 
- setwd("~/lab/")
+setwd("~/lab/")
 load("point_pattern2.RData")
 ls()
 
@@ -113,9 +119,9 @@ points(covids)
 coastlines <- readOGR("ne_10m_coastline.shp")
 plot(coastlines, add=T)
 
-#interpolazione
+#Interpolazione
 head(covid)
-#per isualizzare l'intera tabella
+#per visualizzare l'intera tabella
 View(covid)
 
 #marks del point pattern
