@@ -14,14 +14,13 @@ coordinates(meuse)=~x+y
 #spplot dei dati di zinco
 spplot(meuse,"zinc")
 
-#esercizio:spplot dati di rame
-#altro modo per vedere i nomi names()
+#ESERCIZIO:spplot dati di rame
 head(meuse)
 spplot(meuse,"copper")
 
 #bubble altro modo per plottare i dati
 bubble(meuse,"zinc")
-#esercizio bubble del rame, colorato di rosso
+#ESERCIZIO: bubble del rame, colorato di rosso
 bubble(meuse,"copper",col="red")
 
 #foraminiferi (sofia),carbon capture (Marco)
@@ -33,8 +32,8 @@ plot(foram,carbon,col="green",cex=2,pch=19)
 #specificare la cartella dove si andrà a lavorare. C:/lab
 setwd("C:/lab") #Windows
 
-#Per leggere la tabella
 covid <- read.table("covid_agg.csv",head=TRUE)
+#read.table("nome file, head=TRUE")permette di leggere la tabella
 head(covid)
 
 
