@@ -116,6 +116,49 @@ plot(EN, col=cl)
 #importare la lista
 #fare uno stack di tutte le bande importate in una singola immagine
 
+################ DAY 2
+
+library(raster)
+setwd("C:/lab/esa_no2")
+
+rlist <- list.files(pattern=".png")
+listafinale <- lapply(rlist, raster)
+EN <- stack(listafinale)
+#lista dei files
+
+difEN <- EN$EN_0013 - EN$EN_0001
+cld <- colorRampPalette(c('blue','white','red'))(100) # 
+plot(difEN, col=cld)
+
+
+cl <- colorRampPalette(c('red','orange','yellow'))(100) #
+plot(EN, col=cl)
+ 
+#boxplot di EN
+boxplot(EN)
+#grafico in orizzontale
+boxplot(EN,horizontal=T)
+
+boxplot(EN, horizontal=T,outline=F)
+boxplot(EN, horizontal=T,outline=F,axes=T)
+#l'azoto rimane su per giù lo stesso ma c'è un cambiamento sui massimi valori       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
