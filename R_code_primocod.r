@@ -1,40 +1,45 @@
-#####PRIMO CODICE R ECOLOGIA DEL PAESAGGIO
+###PRIMO CODICE R ECOLOGIA DEL PAESAGGIO
 
-#per installare i pacchetti 
-install.packages(sp)
-#per richiamare i pacchetti library() o require()
+#FUNZIONE PER INSTALLARE I PACCHETTI
+#LE VIRGOLETTE SERVONO PER USCIRE DAL SOFTWARE
+install.packages("sp")
+#PER RICHIAMARE I PACCHETTI library() o require()
 library(sp)
 #require(sp) 
 
 data(meuse)
-#richiama i dati da usare (data set)
+#FUNZIONE CHE RICHIAMA I DATI DA USARE (data set)
 
 head(meuse)
-#fa vedere le prime righe del data set
+#FUNZIONE CHE PERMETTE DI VEDERE LE PRIME RIGHE DEL DATA SET
 
 names(meuse)
-#mostra il nome delle variabili
+#FUNZIONE CHE CI PERMETTE DI VEDERE IL NOME DELLE VARIABILI
 
 summary(meuse)
-#restituisce le info per il data set
+#FUNZIONE CHE RESTITUISCE LE INFORMAZIONI PER IL DATA SET
 
 pairs(meuse)
+#FUNZIONE CHE PERMETTE DI CREARE UNA MATRICE DI GRAFICI A DISPERSIONE
 pairs(~ cadmium + copper + lead , data = meuse)
 
 #ESERCIZIO: aggiungere lo zinco
 pairs(~ cadmium + copper + lead + zinc , data = meuse)
 
 pairs(meuse[,3:6])
-#richiama le variabili senza scrivere i nomi ma indicando le posizioni
-#viene prodotta una matrice di grafici a dispersione
+#IN QUESTO MODO VENGONO RICHIAMATE LE VARIABILI SENZA SCRIVERE I NOMI MA INDICANDO LE POSIZIONI
+
 pairs(meuse[,3:6] col="red")
-#per decidere il colore si utilizza il comando col mettendo tra virgolette il colore
+#PER IMPOSTARE IL COLORE SI UTILIZZA IL COMANDO col METTENDO TRA VIRGOLETTE IL COLORE CHE SI DESIDERA
+#L'INSIEME DEI CARATTERI RACCHIUSI DA DOPPIE VIRGOLETTE CREA UN VETTORE STRINGA
+
 pairs(meuse[,3:6] col="red" , pch=19)
-#per cambiare il tipo di punto nel grafico si utilizza il comando pch
+#IL COMANDO pch SI UTILIZZA PER INSERIRE UN TIPO DI PUNTO NEL GRAFICO
+
 pairs(meuse[,3:6], col="red", pch=19, cex=3,main="Primo pairs")
-# cex (character exageration) serve per regolare le dimensioni dei caratteri
+# cex (character exageration) COMANDO CHE REGOLA LE DIMENSIONI DEI CARATTERI
 #cex < 1 piccole dimensioni, cex > 1 dimensioni maggiori
-#il comando main permette di inserire il titolo
+#IL COMANDO main PERMETTE DI INSERIRE IL TITOLO AL GRAFICO
 
 panel.correlations <- function(x, y, digits=1, prefix="", cex.cor)
 {
