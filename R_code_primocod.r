@@ -3,6 +3,7 @@
 #FUNZIONE PER INSTALLARE I PACCHETTI
 #LE VIRGOLETTE SERVONO PER USCIRE DAL SOFTWARE
 install.packages("sp")
+
 #PER RICHIAMARE I PACCHETTI library() o require()
 library(sp)
 #require(sp) 
@@ -85,11 +86,15 @@ panel.histograms <- function(x, ...)
 pairs(meuse[,3:6], lower.panel = panel.correlations, upper.panel = panel.smoothing, diag.panel = panel.histograms)
 
 pairs(meuse[,3:6], lower.panel = panel.smoothing, upper.panel = panel.correlations, diag.panel = panel.histograms)
+
 #funzione plot(meuse$cadmium , meuse$copper)
 attach(meuse)
+#IL DATABASE E' COLLEGATO AL PERCORSO DI RICERCA R, E' POSSIBILE ACCEDERE AGLI OGGETTI NEL DATABASE ASSEGNANDO SEMPLICEMENTE IL NOME
+# AL POSTO DELLA FUNZIONE ATTACH SI PUO' ANCHE UTILIZZARE IL SIMBOLO $ 
 
 plot(cadmium , copper)
 
 plot(cadmium , copper , pch=18 , col="blue" , main="primo plot" , xlab="cadmio" , ylab="rame")
 
 plot(cadmium , copper , pch=18 , col="blue" , main="primo plot" , xlab="cadmio" , ylab="rame" , cex.lab=2 , cex=2)
+
