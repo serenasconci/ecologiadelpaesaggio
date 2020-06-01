@@ -1,17 +1,16 @@
-# R spatial: funzioni spaziali in Ecologia del paesaggio
+### R spatial:funzioni spaziali in Ecologia del paesaggio
 
 library(sp)
-#richiamo il pacchetto
+#RICHIAMO IL PACCHETTO
  
 data(meuse)
-#per richiamare i dati
+#PER RICHIAMARE I DATI
 
 head(meuse)
-#fa vedere le prime sei righe
+#FA VEDERE LE PRIME SEI RIGHE
  
 attach(meuse)
-#il database è collegato al percorso di ricerca R 
-#è possibile accedere agli oggetti nel database semplicemente assegnandone il nome
+#IL DATABASE E' COLLEGATO AL PERCORSO DI RICERCA R 
 
 plot(cadmium,lead,col="red",pch=19, cex=2)
 #pch=point character  cex=character exageration
@@ -20,12 +19,14 @@ plot(cadmium,lead,col="red",pch=19, cex=2)
 plot(copper,zinc, col="green",pch=17,cex=2)
  
 plot(copper,zinc, col="green",pch=17,cex=2, xlab="rame",ylab="zinco")
-#per cambiare etichette del grafico xlab e ylab, il nome va tra virgolette
+#PER CAMBIARE LE ETICHETTE DEL GRAFICO SI USANO I COMANDI xlab e ylab
+#IL NOME VA TRA VIRGOLETTE
 
 #multipanel o multiframe
 par(mfrow=c(1,2))
+#LA FUNZIONE par() CREA UN MULTIPANEL, PIU' PLOT DELLE 2 O + IMMAGINI/GRAFICI
 #row=riga
-#vanno inseritisuccessivamente i plot dei due grafici
+#VANNO INSERITI SUCCESSIVAMENTE I PLOT DEI DUE GRAFICI
 plot(cadmium,lead,col="red",pch=19, cex=2)
 plot(copper,zinc, col="green",pch=17,cex=2)
 
@@ -38,18 +39,20 @@ plot(copper,zinc, col="green",pch=17,cex=2)
 install.packages("GGally")
 library(GGally)
 ggpairs(meuse[,3:6])
+#LA FUNZIONE CREA UNA MATRICE DI GRAFICI CON UN DETERMINATO SET DI DATI
 
-# Spatial
+#Spatial
+
 head(meuse)
 
 coordinates(meuse)=~x+y
 plot(meuse)
 
-#plottare i dati spazialmente
 spplot(meuse,"zinc")
+#spplot() serve per plottare i dati spazialmente
 
-#vettore: quando si ripetono numeri o caratteri
+#VETTORE: QUANDO SI RIPETONO NUMERI O CARATTERI
 
-#cran mirror: Software unico ma viene progettato in tutto il mondo
+#CRAN MIRROR: SOFTWARE UNICO CHE VIENE PROGETTATO IN TUTTO IL MONDO
 
 
