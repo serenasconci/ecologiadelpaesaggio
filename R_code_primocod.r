@@ -4,7 +4,6 @@
 install.packages("sp")
 #LE VIRGOLETTE SERVONO PER USCIRE DAL SOFTWARE
 
-
 #PER RICHIAMARE I PACCHETTI library() o require()
 library(sp)
 #require(sp) 
