@@ -11,7 +11,7 @@ coordinates(meuse)=~x+y
 #COORDINATE DEL DATA SET
 
 spplot(meuse,"zinc")
-#spplot DEI DATI DI ZINCO
+#spplot dei dati di zinco
 
 #ESERCIZIO:spplot dati di rame
 head(meuse)
@@ -40,6 +40,7 @@ setwd("C:/lab") #Windows
 
 covid <- read.table("covid_agg.csv",head=TRUE)
 #LA FUNZIONE read.table(NOME DEL FILE, head=TRUE")PERMETTE DI LEGGERE LA TABELLA
+#A QUESTA TABELLA E' STATO ASSEGNATO IL NOME covid
 
 head(covid)
 
