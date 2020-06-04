@@ -16,7 +16,7 @@ head(meuse)
 #FUNZIONE CHE PERMETTE DI VEDERE LE PRIME RIGHE DEL DATA SET
 
 names(meuse)
-#FUNZIONE CHE CI PERMETTE DI VEDERE IL NOME DELLE VARIABILI
+#FUNZIONE CHE PERMETTE DI VISUALIZZARE IL NOME DELLE VARIABILI
 
 summary(meuse)
 #FUNZIONE CHE RESTITUISCE LE INFORMAZIONI PER IL DATA SET
@@ -39,7 +39,7 @@ pairs(meuse[,3:6] col="red" , pch=19)
 #IL COMANDO pch SI UTILIZZA PER INSERIRE UN TIPO DI PUNTO NEL GRAFICO
 
 pairs(meuse[,3:6], col="red", pch=19, cex=3,main="Primo pairs")
-# cex (character exageration) COMANDO CHE REGOLA LE DIMENSIONI DEI CARATTERI
+#cex (character exageration) COMANDO CHE REGOLA LE DIMENSIONI DEI CARATTERI
 #cex < 1 piccole dimensioni, cex > 1 dimensioni maggiori
 #IL COMANDO main PERMETTE DI INSERIRE IL TITOLO AL GRAFICO
 
@@ -83,16 +83,15 @@ panel.histograms <- function(x, ...)
     rect(breaks[-nB], 0, breaks[-1], y, col="white", ...)
 }
 
-
 pairs(meuse[,3:6], lower.panel = panel.correlations, upper.panel = panel.smoothing, diag.panel = panel.histograms)
 
 pairs(meuse[,3:6], lower.panel = panel.smoothing, upper.panel = panel.correlations, diag.panel = panel.histograms)
 
-#funzione plot(meuse$cadmium , meuse$copper)
 attach(meuse)
 #IL DATABASE E' COLLEGATO AL PERCORSO DI RICERCA R, E' POSSIBILE ACCEDERE AGLI OGGETTI NEL DATABASE ASSEGNANDO SEMPLICEMENTE IL NOME
 # AL POSTO DELLA FUNZIONE ATTACH SI PUO' ANCHE UTILIZZARE IL SIMBOLO $ 
 
+#funzione plot(meuse$cadmium , meuse$copper)
 plot(cadmium , copper)
 
 plot(cadmium , copper , pch=18 , col="blue" , main="primo plot" , xlab="cadmio" , ylab="rame")
