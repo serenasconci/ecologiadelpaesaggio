@@ -24,9 +24,9 @@ plot(copper,zinc, col="green",pch=17,cex=2, xlab="rame",ylab="zinco")
 
 #multipanel o multiframe
 par(mfrow=c(1,2))
-#LA FUNZIONE par() CREA UN MULTIPANEL, PIU' PLOT DELLE 2 O + IMMAGINI/GRAFICI
+#LA FUNZIONE par() CREA UN MULTIPANEL, PIU' PLOT DI 2 O + IMMAGINI/GRAFICI
 #row=riga
-#VANNO INSERITI SUCCESSIVAMENTE I PLOT DEI DUE GRAFICI
+#DOPO LA FUNZIONE par VANNO INSERITI SUCCESSIVAMENTE I PLOT DEI DUE GRAFICI
 plot(cadmium,lead,col="red",pch=19, cex=2)
 plot(copper,zinc, col="green",pch=17,cex=2)
 
@@ -38,6 +38,7 @@ plot(copper,zinc, col="green",pch=17,cex=2)
 #multiframe automatico
 install.packages("GGally")
 library(GGally)
+
 ggpairs(meuse[,3:6])
 #LA FUNZIONE CREA UNA MATRICE DI GRAFICI CON UN DETERMINATO SET DI DATI
 
