@@ -10,9 +10,9 @@
 #6.R_code_landcover.r
 #7.R_code_multitemp.r
 #8.R_code_multitemp_NO2.r
-#9.
-#10.
-#11. R_code_crop.r
+#9.R_code_snow.r
+#10.R_code_patches.r
+#11.R_code_crop.r
 
 ###1. R_code_primocod.r
 #PRIMO CODICE R ECOLOGIA DEL PAESAGGIO
@@ -1151,16 +1151,184 @@ boxplot(EN, horizontal=T,outline=F,axes=T)
 ##############################################################################################################################
 ##############################################################################################################################
 
-#9.
+###9. R_code_snow.r
 
+setwd("C:/lab")
 
+install.packages("ncdf4") 
+#QUESTO PACCHETTO PERMETTE DI VEDERE I DATI CON ESTENSIONE .nc
+library(ncdf4)
+library(raster)
 
+#PER VISUALIZZARE IL FILE .nc VA PRIMA IMPORTATO
+#LA FUNZIONE raster()IMPORTA UNA SINGOLA BANDA
+#LA FUNZIONE brick() IMPORTA VARI LIVELLI CON DIVERSE BANDE, SI TROVA NEL PACCHETTO RASTER
+snowmay <- raster("c_gls_SCE500_202005180000_CEURO_MODIS_V1.0.1.nc")
 
-### 11. R code crop
+cl <- colorRampPalette(c('darkblue','blue','light blue'))(100)
 
-#crop sui dati della criosfera
+#ESERCIZIO:plot snow cover vit the cl palette
+cl <- colorRampPalette(c('darkblue','blue','light blue'))(100)
+plot(snowmay, col=cl)
+
+#import snow data
+#VA CAMBIATA LA WORKING DIRECTORY PERHE' I FILES CHE DOBBIAMO UTILIZZARE SI TROVANO IN UNA NUOVA CARTELLA
+#ALL'INTERNO DELLA CARTELLA LAB
+setwd("C:/lab/snow")
+
+#save raster into list con lapply
+rlist <- list.files(pattern=".tif")
+rlist
+list_rast <- lapply(rlist, raster)
+#lapply() IMPORTA UNA LISTA DI FILES INSIEME
+
+snow.multitemp <- stack(list_rast)
+plot(snow.multitemp,col=cl)
+#stack() PERMETTE DI UNIRE TUTTI I FILES IN UN FILE UNICO 
+
+#multitemp
+par(mfrow=c(1,2))
+plot(snow.multitemp$snow2000r, col=cl)
+plot(snow.multitemp$snow2020r, col=cl)
+
+#zlim
+#INDICA I LIMITI MIN E MAX
+par(mfrow=c(1,2))
+plot(snow.multitemp$snow2000r, col=cl, zlim=c(0,250))
+plot(snow.multitemp$snow2020r, col=cl, zlim=c(0,250))
+
+difsnow = snow.multitemp$snow2020r - snow.multitemp$snow2000r
+difsnow = snow.multitemp$snow2020r - snow.multitemp$snow2000r
+cldiff <- colorRampPalette(c('blue','white','red'))(100) 
+plot(difsnow, col=cldiff)
+
+#previsione
+#IOL and download prediction.r into the folder snow
+#source + NOME DELLO SCRIPT (PER CARICARE LO SCRIPT DALL'ESTERNO)
+source("prediction.r")
+
+predicted.snow.2025.norm <- raster("predicted.snow.2025.norm.tif")
+plot(predicted.snow.2025.norm, col=cl)
+
+############################################################################################################################
+############################################################################################################################
+############################################################################################################################
+
+###10. R_code_patches.r
+
+setwd("C:/lab")
+
+library(raster)
+
+install.packages("igraph")
+library(igrafh) #for patches
+library(ggplot2)
+
+#brick() IMPORTA TUTTE LE BANDE
+#raster() IMPORTA UNA SINGOLA BANDA
+d1c <- raster("d1c.tif")
+d2c <- raster("d2c.tif")
+
+#plot dei due file
+#par() PER INSERIRE PIU' PLOT IN UN GRAFICO
+par(mfrow=c(1,2))
+#IN QUESTO CASO AVREMO SOLO DUE CLASSI
+cl <- colorRampPalette(c('green','black'))(100) #
+plot(d1c,col=cl)
+plot(d2c,col=cl)
+#IN QUESTO CASO LA CLASSE NERA E' LA FORSTA MENTRE LA ZONA VERDE E' LA ZONA AGRICOLA
+
+#INVERTIAMO LE DUE CLASSI
+par(mfrow=c(1,2))
+cl <- colorRampPalette(c('black','green'))(100) #
+plot(d1c,col=cl)
+plot(d2c,col=cl)
+
+#forest:class 2
+#agriculture:classe 1
+
+#reclassify() DERIVA DAL PACCHETTO RASTER E RICLASSIFICA UN'IMMAGINE
+d1c.for <- reclassify(d1c, cbind(1,NA))
+#cbind()FUNZIONE CHE ANNULLA ALCUNI VALORI, IN QUESTO CASO IL VALORE 1
+#non valore NA, ELIMINIAMO TUTTO QUELLO CHE NON E' FORESTA
+
+par(mfrow=c(1,2))
+cl <- colorRampPalette(c('black','green'))(100) #
+plot(d1c,col=cl)
+plot(d1c.for)
+#IL VALORE 1 E' STATO RESO NULLO
+
+#cambio di palette
+par(mfrow=c(1,2))
+cl <- colorRampPalette(c('black','green'))(100) #
+plot(d1c,col=cl)
+plot(d1c.for, col=cl)
+
+#PER VEDERE TUTTI I VALORI
+d1c.for
+
+#operazione per il secondo periodo
+d2c.for <- reclassify(d2c, cbind(1,NA))
+
+#plot
+par(mfrow=c(1,2))
+plot(d1c)
+plot(d2c)
+#MAPPE SOLO CON LE FORESTE
+
+#creating patches
+#clump()PATCHES DI CELLE CONNESSE TRA DI LORO, SI TROA NEL PACCHETTO RASTER
+#clump()APPLICARA ALLE MAPPE
+d1c.for.patches <- clump(d1c.for)
+d2c.for.patches <- clump(d2c.for)
+
+#Writeraster() SCRIVIAMO IL FILE APPENA CREATO ALL'INTERNO DELLA CARTELLA lab
+#salvare i dati all'esterno
+writeRaster(d1c.for.pacthes, "d1c.for.patches.tif")
+writeRaster(d2c.for.pacthes, "d2c.for.patches.tif")
+
+#PER IMPORTARE I FILES file raster() o brick()
+#PER ESPORTARE I FILESwriteRaster()
+
+#ESERCIZIO: plottare le mappe una accanto all'altra
+par(mfrow=c(1,2))
+plot(d1c.for.pacthes)
+plot(d2c.for.pacthes)
+
+#palette
+clp <- colorRampPalette(c('dark blue','blue','green','orange','yellow','red'))(100) # 
+par(mfrow=c(1,2))
+plot(d1c.for.patches, col=clp)
+plot(d2c.for.patches, col=clp)
+
+#DEFINIRE QUANTITATIVAMENTE LE PATCHES
+#PRIMA MAPPA d1 IL VALORE MAX DELLE PATCHES E' 301
+#SECONDA MAPPA d2 IL VALORE MAX DELLE PATCHES E' 1212
+
+#dataframe 
+time <- c("Before deforestation","After deforestation")
+npatches <- c(301,1212)
+
+output <- data.frame(time,npatches)
+attach(output)
+
+library(ggplot2) 
+
+ggplot(output, aes(x=time, y=npatches, color="red")) + geom_bar(stat="identity", fill="white")
+
+#E' STATA PERSA AREA NEL NOSTRO TRAND
+#LA FORESTA RISULTA FRAMMENTATA IN MOLTE PATCHES
+#SITUAZIONE MOLTO PERICOLOSA
+
+#############################################################################################################################
+#############################################################################################################################
+#############################################################################################################################
+
+### 11. R_code_crop.r
+
+#crop DEI DATI DELLA CRIOSFERA
 #serie di immagini 
-#stack funzione che va ad applicare la funzione di riferimento, ad esempio raster ad un intera lista di file
+#stack()FUNZIONE CHE VA AD APPLICARE LA FUNZIONE DI RIFERIMENTO(ESEMPIO: RASTER IN UN INTERA LISTA DI FILES)
 
 library(raster)
 
@@ -1170,71 +1338,66 @@ setwd("C:/lab/snow")
 
 rlist <- list.files(pattern="snow")
 rlist 
-
-#lista file da poter inserire all'interno di R
-#invece del pattern .tif mettiamo snow per escludere il file della prediction
+#CREARE UNA LISTA DI FILES DA POTER INSERIRE ALL'INTERNO DI R
+#INVECE DI PATTERN .tif METTIAMO snow PER ESCLUDERE IL FILE DELLA PREDICTION
 
 list_rast <- lapply(rlist, raster)
 snow.multitemp <- stack(list_rast)
-#in questo modo abbiamo importato tutti i file
+#TUTTI I FILE SONO STATI IMPORTATI
 clb <- colorRampPalette(c('dark blue','blue','light blue'))(100) # 
 plot(snow.multitemp,col=clb)
 
-#funzione zoom(nome immagine e estensione)
-#definizione dell'estenzione
-#zoom è una funzione di raster
+#zoom E' UNA FUNZIONE DI RASTER
+#zoom(NOME IMMAGINE, ESTENSIONE)
 
-#il dollaro lega il file interno di snow.multitemp
+#IL DOLLARO LEGA IL FILE INTERNO DI snow.multitemp 
 plot(snow.multitemp$snow2010r, col=clb)
 
-#nuova estensione
-#l'italia cade circa tra i 40 e i 50 gradi latitudine
-#longitudine 6 18 gradi
-
+#NUOVA ESTENSIONE
+#L'ITALIA RICADE CIRCA TRA I 40 E I 50 GRADI LAT
+#LONGITUDINE TRA I 6 E I 18 GRADI
 extension <- c(6, 18, 40, 50)
 zoom(snow.multitemp$snow2010r, ext=extension)
 
-#non è precisa quindi va cambiato
+#CAMBIO DI ESTENSIONE PER ESSERE PIU' PRECISI
 extension <- c(6, 18, 35, 50)
 zoom(snow.multitemp$snow2010r, ext=extension)
 
-#altro accorgimento
+#ALTRA PICCOLA MODIFICA ALL'ESTENSIONE
 extension <- c(6, 20, 35, 50)
 zoom(snow.multitemp$snow2010r, ext=extension)
-
-#ora viene presa tutta l'italia 
 plot(snow.multitemp$snow2010r, col=clb)
  
 #zoom (nome immagine ed estensione)
 zoom(snow.multitemp$snow2010r, ext=drawExtent())
 
-
 #crop
-#in crop non va dichiarato l'extent
-#la differenza con zoom è che va messo un argomento a fnzione 
-#cn crop no ext=, basta mettere l'immagine e l'estensione che si va ad utilizzare
+#NON VA DICHIARATO EXTENT
+#LA DIFFERENZA CON zoom E' CHE VA MESSO UN ARGOMENTO A FUNZIONE
+#CON CROP NO ext=, basta mettere l'immagine e l'estensione che si va ad utilizzare
 extension <- c(6, 20, 35, 50)
 snow2010r.italy <- crop(snow.multitemp$snow2010r, extension)
 plot(snow2010r.italy, col=clb)
 
-#stack serie multitemporale che abbiamo creato in precedenza con lapply
+#stack SERIE MULTITEMPORALE SERIE MULTITEMPORALE CHE ABBIAMO CREATO IN PRECEDENZA CON lapply
 
 #crop di un intero stack
 #ESERCIZIO: crop the Italy extent on the whole stack of snow layers
 #partire dallo stack e creare un crop
 snow.multitemp.italy <- crop(snow.multitemp, extension)
- plot(snow.multitemp.italy, col=clb)
+plot(snow.multitemp.italy, col=clb)
 
 
-#creare una legenda uguale in modo tale da poterle mettere a confronto
-#cambio del range
-#tutti i valori minimi sono 20 mentre invece il massimo è 195
+#VA CREATA UNA LEGENDA UGUALE IN MODO TALE DA POTERLE METTERE A CONFRONTO
+#CAMBIO DEL RANGE
+#TUTTI I VALORI MINIMI SONO 20 MENTRE IL MASSIMO E' 195
 plot(snow.multitemp.italy, col=clb, zlim=c(20,200))
-#zlim serve per definire la variazione
-#variazione da 20 a 200
-#boxplot,parte orizzontale, gli outlaiers=falso valori molto esterni
+#zlim() SERVE PER DEFINIRE LA VARIAZIONE
+#VARIAZIONE DA 20 E 200
+
 boxplot(snow.multitemp.italy, horizontal=T,outline=F)
-#molta meno copertura nevosa perche il valore massimo che è molto alto nel 2000 è molto più basso nel 2020
+#boxplot,parte orizzontale, gli outlaiers=falso (VALORI MOLTO ESTERNI)
+#MOLTA MENO COPERTURA NEVOSA PERCHE' IL VALORE MAX CHE E' MOLTO ALTO NEL 2000 E MOLTO PIU' BASSO NEL 2020
 
 
 
