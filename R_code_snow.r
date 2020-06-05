@@ -39,6 +39,7 @@ plot(snow.multitemp$snow2000r, col=cl)
 plot(snow.multitemp$snow2020r, col=cl)
 
 #zlim
+#INDICA I LIMITI MIN E MAX
 par(mfrow=c(1,2))
 plot(snow.multitemp$snow2000r, col=cl, zlim=c(0,250))
 plot(snow.multitemp$snow2020r, col=cl, zlim=c(0,250))
