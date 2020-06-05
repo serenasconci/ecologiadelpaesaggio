@@ -1,14 +1,17 @@
-### R code for analysing NO2 data from ESA - January to March 2020
+###8. R_code_multitemp_NO2.r
+
+#R code for analysing NO2 data from ESA - January to March 2020
 
 library(raster)
 
 setwd("C:/lab")
 
-#raster() caricare l'immagine con una sola banda, al contrario di brick() che carica tutte le bande
 EN01 <- raster("EN_0001.png")
+#raster()FUNZIONE CHE PERMETTE DI CARICARE UN'IMMAGINE CON UNA SOLA BANDA
+#FUNZIONE CONTRARIA A brick() CHE CARICA TUTTE LE BANDE
 plot(EN01)
 
-Esercizio: import all the images 
+#Esercizio: import all the images 
 EN01 <- raster("EN_0001.png")
 EN02 <- raster("EN_0002.png")
 EN03 <- raster("EN_0003.png")
@@ -25,11 +28,12 @@ EN13 <- raster("EN_0013.png")
 
 #cambio palette
 cl <- colorRampPalette(c('red','orange','yellow'))(100) 
+#SITUAZIONE INIZIALE
 plot(EN01, col=cl)
-#situazione finale
+#SITUAZIONE FINALE
 plot(EN13, col=cl)
 
-#grafico di entrambe le immagini
+#GRAFICO CON ENTRAMBE LE IMMAGINI
 par(mfrow=c(1,2))
 plot(EN01, col=cl)
 plot(EN13, col=cl)
@@ -40,7 +44,6 @@ dev.off()
 difno2 <- EN13 - EN01
 cldif <- colorRampPalette(c('blue','black','yellow'))(100) 
 plot(difno2, col=cldif)
-
 
 par(mfrow=c(4,4))
 plot(EN01, col=cl)
@@ -57,7 +60,7 @@ plot(EN11, col=cl)
 plot(EN12, col=cl)
 plot(EN13, col=cl)
 
-#plot ( EN01, EN02, EN03, EN04, EN05, EN06, EN07, EN08, EN09, EN10, EN11, EN12, col=cl)
+#plot (EN01, EN02, EN03, EN04, EN05, EN06, EN07, EN08, EN09, EN10, EN11, EN12, col=cl)
 
 library(raster)
 
@@ -65,9 +68,10 @@ setwd("~/lab/esa_no2")
 # put all files into the folder 
 
 rlist=list.files(pattern=".png", full.names=T) 
-
 #save raster into list
+#TUTTI I FILE SALVATI IN FORMATO .png VERRANNO INSERITI NELLA LISTA
 
+#PER EVITARE DI INSERIRE TUTTE LE IMMAGINI MANUALMENTE E' POSSIBILE UTILIZZARE LA FUNZIONE lapply()
 #con lapply
 list_rast=lapply(rlist, raster)
 
@@ -78,88 +82,66 @@ for(i in 1:length(rlist)){
   list_rast[[i]]=r
 }
 
-####### DAY 2
+#DAY 2
 
 setwd("C:/lab")
 
-#caricare il dato precedente con load()
 load("NO2.RData")
+#CARICARE IL FILE SALVATO IN PRECENDENZA
 
 ls()
 
-#importare tutti i dati insieme
-#utilizza un'intera lista di dati al contrario di raster
-
 setwd("C:/lab/esa_no2")
+#INDICARE LA CARTELLA SU CUI SI ANDRA' A LAVORARE
 
-#lista dei files che hanno una certa configurazione (pattern) in queso caso .png
 rlist <- list.files(pattern=".png")
-
+#LA LISTA VERRA' CREATA CON TUTTI I FILES PRESENTI ALL'INTERNO DELLA CARTELLA esa_no2 CON CONFIGURAZIONE .png (pattern)
 rlist
-#fa vedere tutti i file .png
-
-#lapply() serve per applicare una funzione su una lista o un vettore, cioè una serie di elementi
-#applicare alla lista rlist la funzione raster
+#FA VEDERE TUTTI I FILES .png
 
 listafinale <- lapply(rlist, raster)
-
+#lapply() SERVE AD APPLICARE UNA FUNZIONE SU UNA LISTA O UN VETTORE (UNA SERIE DI ELEMENTI)
+#IN QUESTO CASO VIENE APPLICATO ALLA LISTA rlist LA FUNZIONE raster
+#TUTTI I DATI VENGONO IMPORTATI INSIEME
+#AL CONTRARIO DELLA FUNZIONE RASTER lapply UTILIZZA UN'INTERA LISTA DI DATI
 #stack, crea un'immagine unica con tutte e 13 le immagini
+
 EN <- stack(listafinale)
 
 cl <- colorRampPalette(c('red','orange','yellow'))(100) 
 
 plot(EN, col=cl)
 
-#Passaggi
-#creare una cartella con tutti i files
-#lista dei file
-#importare la lista
-#fare uno stack di tutte le bande importate in una singola immagine
+#PASSAGGI
+#1.CREARE UNA CARTELLA CON TUTTI I FILES
+#2LISTA DI FILES
+#3.IMPORTARE LA LISTA
+#4.FARE UNO STACK DI TUTTE LE BANDE IMPORTATE IN UNA SINGOLA IMMAGINE
 
-################ DAY 2
+# DAY 2
 
 library(raster)
+
 setwd("C:/lab/esa_no2")
 
 rlist <- list.files(pattern=".png")
 listafinale <- lapply(rlist, raster)
 EN <- stack(listafinale)
-#lista dei files
+#LISTA DEI FILES
 
+#DIFFERENZA PRIMA E ULTIMA IMMAGINE
 difEN <- EN$EN_0013 - EN$EN_0001
 cld <- colorRampPalette(c('blue','white','red'))(100) # 
 plot(difEN, col=cld)
-
 
 cl <- colorRampPalette(c('red','orange','yellow'))(100) #
 plot(EN, col=cl)
  
 #boxplot di EN
 boxplot(EN)
-#grafico in orizzontale
+#GRAFICO IN ORIZZONTALE
 boxplot(EN,horizontal=T)
-
 boxplot(EN, horizontal=T,outline=F)
+#OUTLINE NON VENGONO PRESI IN CONSIDERAZIONE
 boxplot(EN, horizontal=T,outline=F,axes=T)
-#l'azoto rimane su per giù lo stesso ma c'è un cambiamento sui massimi valori       
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#L'AZOTO RIMANE QUASI LO STESSO MA C'E' UN CAMBIAMENTO DEI MASSIMI VALORI      
