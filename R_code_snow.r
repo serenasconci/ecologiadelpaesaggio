@@ -2,13 +2,14 @@
 
 setwd("C:/lab")
 
-install.packages("ncdf4") #permette di vedere i dati con estensione.nc
+install.packages("ncdf4") 
+#QUESTO PACCHETTO PERMETTE DI VEDERE I DATI CON ESTENSIONE .nc
 library(ncdf4)
 library(raster)
 
-# per visualizzare il file .nc va prima importato
-#raster importa un singolo livello, una singola banda 
-# brick importa vari livelli con diverse bande, si trova nel pacchetto raster
+#PER VISUALIZZARE IL FILE .nc VA PRIMA IMPORTATO
+#LA FUNZIONE raster()IMPORTA UNA SINGOLA BANDA
+#LA FUNZIONE brick() IMPORTA VARI LIVELLI CON DIVERSE BANDE, SI TROVA NEL PACCHETTO RASTER
 snowmay <- raster("c_gls_SCE500_202005180000_CEURO_MODIS_V1.0.1.nc")
 
 cl <- colorRampPalette(c('darkblue','blue','light blue'))(100)
@@ -18,20 +19,19 @@ cl <- colorRampPalette(c('darkblue','blue','light blue'))(100)
 plot(snowmay, col=cl)
 
 #import snow data
-#va cambiata la working directory perchè i files si trovano in una nuova cartella all'interno di lab
+#VA CAMBIATA LA WORKING DIRECTORY PERHE' I FILES CHE DOBBIAMO UTILIZZARE SI TROVANO IN UNA NUOVA CARTELLA
+#ALL'INTERNO DELLA CARTELLA LAB
 setwd("C:/lab/snow")
 
 #save raster into list con lapply
-#lapply importa una lista di files insieme 
-    
 rlist <- list.files(pattern=".tif")
 rlist
 list_rast <- lapply(rlist, raster)
+#lapply() IMPORTA UNA LISTA DI FILES INSIEME
 
 snow.multitemp <- stack(list_rast)
 plot(snow.multitemp,col=cl)
- 
-#stack è l'insieme di tutti i files#stack è l'insieme di tutti i files
+#stack() PERMETTE DI UNIRE TUTTI I FILES IN UN FILE UNICO 
 
 #multitemp
 par(mfrow=c(1,2))
@@ -50,7 +50,7 @@ plot(difsnow, col=cldiff)
 
 #previsione
 #IOL and download prediction.r into the folder snow
-#source + nome dello script, per caricare lo script dall'esterno
+#source + NOME DELLO SCRIPT (PER CARICARE LO SCRIPT DALL'ESTERNO)
 source("prediction.r")
 
 predicted.snow.2025.norm <- raster("predicted.snow.2025.norm.tif")
