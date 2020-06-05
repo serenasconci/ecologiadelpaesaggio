@@ -1,44 +1,46 @@
-####R Code Patches
+###10. R_code_patches.r
 
 setwd("C:/lab")
+
 library(raster)
 
 install.packages("igraph")
 library(igrafh) #for patches
 library(ggplot2)
 
-#brick() importa più bande
-#raster() importa una singola banda
+#brick() IMPORTA TUTTE LE BANDE
+#raster() IMPORTA UNA SINGOLA BANDA
 d1c <- raster("d1c.tif")
 d2c <- raster("d2c.tif")
 
 #plot dei due file
-#par per inserire più plot in unn grafico
+#par() PER INSERIRE PIU' PLOT IN UN GRAFICO
 par(mfrow=c(1,2))
-#in questo caso avremo solo due classi
+#IN QUESTO CASO AVREMO SOLO DUE CLASSI
 cl <- colorRampPalette(c('green','black'))(100) #
 plot(d1c,col=cl)
 plot(d2c,col=cl)
-#in questo caso la classe nera è la foresta mentre la zona verde è la zona agricola
+#IN QUESTO CASO LA CLASSE NERA E' LA FORSTA MENTRE LA ZONA VERDE E' LA ZONA AGRICOLA
 
-#inverto le due classi
+#INVERTIAMO LE DUE CLASSI
 par(mfrow=c(1,2))
 cl <- colorRampPalette(c('black','green'))(100) #
 plot(d1c,col=cl)
 plot(d2c,col=cl)
 
-#forest:class 2, agriculture: classe 1
-#non valore NA, eliminiamo tutto quello che non è foresta
-#reclassify() deriva dal pacchetto raster, riclassifica un'immagine
+#forest:class 2
+#agriculture:classe 1
 
+#reclassify() DERIVA DAL PACCHETTO RASTER E RICLASSIFICA UN'IMMAGINE
 d1c.for <- reclassify(d1c, cbind(1,NA))
-#cbind()funzione che annulla alcuni valori e in questo caso il valore 1
+#cbind()FUNZIONE CHE ANNULLA ALCUNI VALORI, IN QUESTO CASO IL VALORE 1
+#non valore NA, ELIMINIAMO TUTTO QUELLO CHE NON E' FORESTA
 
 par(mfrow=c(1,2))
 cl <- colorRampPalette(c('black','green'))(100) #
 plot(d1c,col=cl)
 plot(d1c.for)
-#abbiamo reso nullo il valore 1
+#IL VALORE 1 E' STATO RESO NULLO
 
 #cambio di palette
 par(mfrow=c(1,2))
@@ -46,7 +48,7 @@ cl <- colorRampPalette(c('black','green'))(100) #
 plot(d1c,col=cl)
 plot(d1c.for, col=cl)
 
-#per vedere i valori
+#PER VEDERE TUTTI I VALORI
 d1c.for
 
 #operazione per il secondo periodo
@@ -56,21 +58,21 @@ d2c.for <- reclassify(d2c, cbind(1,NA))
 par(mfrow=c(1,2))
 plot(d1c)
 plot(d2c)
-#mappe solo con le foreste
+#MAPPE SOLO CON LE FORESTE
 
 #creating patches
-#clump()patches di celle connesse tra di loro, si trova nel pacchetto raster
-#clump applicata alle mappe
+#clump()PATCHES DI CELLE CONNESSE TRA DI LORO, SI TROA NEL PACCHETTO RASTER
+#clump()APPLICARA ALLE MAPPE
 d1c.for.patches <- clump(d1c.for)
 d2c.for.patches <- clump(d2c.for)
 
-#Writeraster() scriviamo il file appena creato all'interno della cartella lab
+#Writeraster() SCRIVIAMO IL FILE APPENA CREATO ALL'INTERNO DELLA CARTELLA lab
 #salvare i dati all'esterno
 writeRaster(d1c.for.pacthes, "d1c.for.patches.tif")
 writeRaster(d2c.for.pacthes, "d2c.for.patches.tif")
 
-#per importare file raster() o brick()
-#per esportare file writeRaster()
+#PER IMPORTARE I FILES file raster() o brick()
+#PER ESPORTARE I FILESwriteRaster()
 
 #ESERCIZIO: plottare le mappe una accanto all'altra
 par(mfrow=c(1,2))
@@ -83,9 +85,9 @@ par(mfrow=c(1,2))
 plot(d1c.for.patches, col=clp)
 plot(d2c.for.patches, col=clp)
 
-#definire quantitativamente le patches
-#nella prima mappa d1 il valore di patches massimo è di 301
-#patches d2= 1212
+#DEFINIRE QUANTITATIVAMENTE LE PATCHES
+#PRIMA MAPPA d1 IL VALORE MAX DELLE PATCHES E' 301
+#SECONDA MAPPA d2 IL VALORE MAX DELLE PATCHES E' 1212
 
 #dataframe 
 time <- c("Before deforestation","After deforestation")
@@ -95,14 +97,10 @@ output <- data.frame(time,npatches)
 attach(output)
 
 library(ggplot2) 
+
 ggplot(output, aes(x=time, y=npatches, color="red")) + geom_bar(stat="identity", fill="white")
 
-#perso l'area nel nostro trand
-#foresta frammentata in molte patches
-#situazione molto pericolosa
-
-
-
-
-
+#E' STATA PERSA AREA NEL NOSTRO TRAND
+#LA FORESTA RISULTA FRAMMENTATA IN MOLTE PATCHES
+#SITUAZIONE MOLTO PERICOLOSA
 
