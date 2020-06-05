@@ -74,7 +74,6 @@ percent1
 #89.9 per le foreste
 #10.1 per le aree aperte
 
-
 #frequeza mappa defor2
 freq(d2c$map)
 #aree aperte=164170
@@ -83,11 +82,9 @@ freq(d2c$map)
 totd2 <- 178556 + 164170
 #totd2=342726
 
-
 #percentuale defor2
 #aree aperte= 47.9
 #foreste= 52.1
-
 
 #PLOT FINALE CON DATI OTTENUTI
 cover <- c("Agriculture", "Forest")
