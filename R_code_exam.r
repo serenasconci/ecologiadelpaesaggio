@@ -1387,7 +1387,6 @@ plot(snow2010r.italy, col=clb)
 snow.multitemp.italy <- crop(snow.multitemp, extension)
 plot(snow.multitemp.italy, col=clb)
 
-
 #VA CREATA UNA LEGENDA UGUALE IN MODO TALE DA POTERLE METTERE A CONFRONTO
 #CAMBIO DEL RANGE
 #TUTTI I VALORI MINIMI SONO 20 MENTRE IL MASSIMO E' 195
@@ -1399,6 +1398,118 @@ boxplot(snow.multitemp.italy, horizontal=T,outline=F)
 #boxplot,parte orizzontale, gli outlaiers=falso (VALORI MOLTO ESTERNI)
 #MOLTA MENO COPERTURA NEVOSA PERCHE' IL VALORE MAX CHE E' MOLTO ALTO NEL 2000 E MOLTO PIU' BASSO NEL 2020
 
+################################################################################################################################
+################################################################################################################################
+################################################################################################################################
+
+### 12. Species Distribution Modelling (SDM)
+
+#no settaggio della cartella perche usiamo i dati del pacchetto
+install.packages("sdm")
+library(sdm)
+library(raster)
+library(rgdal) #gestisce al meglio dati raster e vettoriali
+#in questo caso dati vettoriali
+
+#file vettoriali: coordinate x,y 
+#punti linee e poligoni
+
+#caricato il file
+file <- system.file("external/species.shp", package="sdm")
+#caricare la parte grafica e le informazioni correlate ai vari punti
+species <- shapefile(file)
+
+species
+#valori del file
+#fuso numero 30 (tra spagna e francia)
+#italia ricade nel fuso 32 e 33
+#occurrence: unica informazione, se una specie è presente o meno
+
+species$occurrence
+# [1] 1 0 1 1 1 0 0 1 1 1 1 1 1 0 1 1 0 1 1 0 0 1 0 1 1 0 1 0 1 0 1 0 1 1 1 1 0
+#[38] 1 0 0 0 0 0 0 0 1 0 0 1 0 1 0 0 0 0 0 1 1 1 1 0 0 1 0 1 0 1 1 1 1 0 0 0 0
+#[75] 0 1 0 0 1 0 1 0 1 1 1 0 0 1 1 0 0 1 1 1 1 0 0 0 0 0 0 0 1 1 1 0 0 1 1 0 0
+#[112] 0 1 0 0 1 1 1 1 1 0 0 0 1 1 0 0 1 1 1 1 1 0 0 0 1 0 0 1 1 0 1 0 1 0 0 1 1
+#[149] 0 0 1 0 0 1 1 0 0 0 0 1 1 1 0 0 0 0 1 0 0 1 0 1 0 0 0 0 1 0 1 0 1 0 1 0 0
+#[186] 0 0 1 1 0 1 0 1 1 0 1 0 0 0 0
+
+plot(species)
+
+#modificare le presenze dalle assenze
+
+plot(species[species$Occurrence == 1,],col='blue',pch=16)
+#plot (data set, per tutte le occorrenze di presenza quindi =1, (virgola interrompe la misurazione)) colore blu e tipo di punto=16
+points(species[species$Occurrence == 0,],col='red',pch=16)
+#points invece di plot per aggiungerle alla funzione precedente
+
+#variabili ambientali
+#esempio: temperatura
+path <- system.file("external", package="sdm") 
+#all'interno del pacchetto sdm è presente la cartella external
+
+#pattern: asc (file ascii)
+lst <- list.files(path=path,pattern='asc$',full.names = T) #
+#variabili ambientali che servono a prevedere la oresenza della specie
+lst
+#[1] "C:/Users/Serena/Documents/R/win-library/3.6/sdm/external/elevation.asc"    
+#[2] "C:/Users/Serena/Documents/R/win-library/3.6/sdm/external/precipitation.asc"
+#[3] "C:/Users/Serena/Documents/R/win-library/3.6/sdm/external/temperature.asc"  
+#[4] "C:/Users/Serena/Documents/R/win-library/3.6/sdm/external/vegetation.asc" 
+
+#stack delle variabili
+#uniamo quota, precipitazion, temperature, vegetazione in un unico blocco 
+preds <- stack(lst)
+cl <- colorRampPalette(c('blue','orange','red','yellow')) (100)
+plot(preds, col=cl)
+
+plot(preds$elevation, col=cl)
+
+#uniamo al plot i punti che hanno occorrenze= a 1
+
+points(species[species$Occurrence == 1,], pch=16)
+ #la specie predilige una bassa quota
+
+plot(preds$temperature, col=cl)
+points(species[species$Occurrence == 1,], pch=16)
+#la specie predilige una temperatura medio alta
+
+plot(preds$precipitation, col=cl)
+points(species[species$Occurrence == 1,], pch=16)
+#la specie predilige una siuazione intermedia
+
+plot(preds$vegetation, col=cl)
+points(species[species$Occurrence == 1,], pch=16)
+#la specie predilige l'ombra quindi con molta vegetazione
+
+#glm 
+
+#model
+d <- sdmData(train=species, predictors=preds)
+
+#class                                 : sdmdata 
+#=========================================================== 
+#number of species                     :  1 
+#species names                         :  Occurrence 
+#number of features                    :  4 
+#feature names                         :  elevation, precipitation, temperature, vegetation 
+#type                                  :  Presence-Absence 
+#has independet test data?             :  FALSE 
+#number of records                     :  200 
+#has Coordinates?                      :  TRUE 
+
+
+m1 <- sdm(Occurrence ~ elevation + precipitation + temperature + vegetation, data=d, methods='glm')
+#y=occurrence
+p1 <- predict(m1, newdata=preds)
+
+plot(p1, col=cl)
+points(species[species$Occurrence == 1,], pch=16)
+#mappa di distribuzione della specie, prediction
+
+####################################################################################################################################
+####################################################################################################################################
+####################################################################################################################################
+#EXAM PROJECT
 
 
 
@@ -1409,4 +1520,4 @@ boxplot(snow.multitemp.italy, horizontal=T,outline=F)
 
 
 
- 
+
