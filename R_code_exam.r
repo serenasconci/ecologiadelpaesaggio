@@ -13,6 +13,8 @@
 #9.R_code_snow.r
 #10.R_code_patches.r
 #11.R_code_crop.r
+#12. Species Distribution Modelling
+#13. Exam
 
 ###1. R_code_primocod.r
 #PRIMO CODICE R ECOLOGIA DEL PAESAGGIO
@@ -29,7 +31,7 @@ data(meuse)
 #FUNZIONE CHE RICHIAMA I DATI DA USARE (data set)
 
 head(meuse)
-#FUNZIONE CHE PERMETTE DI VEDERE LE PRIME RIGHE DEL DATA SET
+#FUNZIONE CHE PERMETTE DI VEDERE LE PRIME SEI RIGHE DEL DATA SET
 
 names(meuse)
 #FUNZIONE CHE PERMETTE DI VISUALIZZARE IL NOME DELLE VARIABILI
@@ -38,15 +40,15 @@ summary(meuse)
 #FUNZIONE CHE RESTITUISCE LE INFORMAZIONI PER IL DATA SET
 
 pairs(meuse)
-#FUNZIONE CHE PERMETTE DI CREARE UNA MATRICE DI GRAFICI A DISPERSIONE
+#FUNZIONE CHE PERMETTE DI CREARE UN PLOT DI TUTTE LE VARIABILI IN UN DATASET
 pairs(~ cadmium + copper + lead , data = meuse)
 
-#ESERCIZIO: aggiungere lo zinco
+#esercizio: aggiungere lo zinco
 pairs(~ cadmium + copper + lead + zinc , data = meuse)
 
 pairs(meuse[,3:6])
 #IN QUESTO MODO VENGONO RICHIAMATE LE VARIABILI SENZA SCRIVERE I NOMI MA INDICANDO LE POSIZIONI
-
+#LE PARENTESI QUADRE SERVONO PER CREARE UN SUBSET
 pairs(meuse[,3:6] col="red")
 #PER IMPOSTARE IL COLORE SI UTILIZZA IL COMANDO col METTENDO TRA VIRGOLETTE IL COLORE CHE SI DESIDERA
 #L'INSIEME DEI CARATTERI RACCHIUSI DA DOPPIE VIRGOLETTE CREA UN VETTORE STRINGA
@@ -86,8 +88,6 @@ panel.smoothing <- function (x, y, col = par("col"), bg = NA, pch = par("pch"),
             col = 1, ...)
 }
 
- 
-
 
 panel.histograms <- function(x, ...)
 {
@@ -105,13 +105,14 @@ pairs(meuse[,3:6], lower.panel = panel.smoothing, upper.panel = panel.correlatio
 
 attach(meuse)
 #IL DATABASE E' COLLEGATO AL PERCORSO DI RICERCA R, E' POSSIBILE ACCEDERE AGLI OGGETTI NEL DATABASE ASSEGNANDO SEMPLICEMENTE IL NOME
-# AL POSTO DELLA FUNZIONE ATTACH SI PUO' ANCHE UTILIZZARE IL SIMBOLO $ 
+# AL POSTO DELLA FUNZIONE ATTACH SI PUO' ANCHE UTILIZZARE IL SIMBOLO $ CHE LEGA LA VARIABILEAL DATASET
+#attach(): FUNZIONA CON TUTTI I PACCHETTI
 
 #funzione plot(meuse$cadmium , meuse$copper)
 plot(cadmium , copper)
 
 plot(cadmium , copper , pch=18 , col="blue" , main="primo plot" , xlab="cadmio" , ylab="rame")
-
+#xlab,DA IL TITOLO ALL'ASSE DELLE ASCISSE MENTRE ylabLO DA ALL'ASSE DELLE ORDINATE
 plot(cadmium , copper , pch=18 , col="blue" , main="primo plot" , xlab="cadmio" , ylab="rame" , cex.lab=2 , cex=2)
 
 #############################################################################################################################
@@ -122,7 +123,7 @@ plot(cadmium , copper , pch=18 , col="blue" , main="primo plot" , xlab="cadmio" 
 #funzioni spaziali in Ecologia del paesaggio
 
 library(sp)
-#RICHIAMO IL PACCHETTO
+#RICHIAMO IL PACCHETTO sp
  
 data(meuse)
 #PER RICHIAMARE I DATI
@@ -136,7 +137,7 @@ attach(meuse)
 plot(cadmium,lead,col="red",pch=19, cex=2)
 #pch=point character  cex=character exageration
 
-#ESERCIZIO: rame e zinco, carattere triangolo e colore verde
+#esercizio: rame e zinco, carattere triangolo e colore verde
 plot(copper,zinc, col="green",pch=17,cex=2)
  
 plot(copper,zinc, col="green",pch=17,cex=2, xlab="rame",ylab="zinco")
@@ -196,7 +197,7 @@ coordinates(meuse)=~x+y
 spplot(meuse,"zinc")
 #spplot dei dati di zinco
 
-#ESERCIZIO:spplot dati di rame
+#esercizio:spplot dati di rame
 head(meuse)
 spplot(meuse,"copper")
 
@@ -204,7 +205,7 @@ bubble(meuse,"zinc")
 #LA FUNZIONE bubble() E' UN ALTRO MODO PER PLOTTARE I DATI
 #CREA UN GRAFICO A BOLLE DI DATI SPAZIALI
 
-#ESERCIZIO: bubble del rame, colorato di rosso
+#esercizio: bubble del rame, colorato di rosso
 bubble(meuse,"copper",col="red")
 
 #esempio dati ottenuti da tesi
@@ -227,6 +228,7 @@ covid <- read.table("covid_agg.csv",head=TRUE)
 #A QUESTA TABELLA E' STATO ASSEGNATO IL NOME covid
 
 head(covid)
+#PRIME SEI RIGHE DELLA TABELLA
 
 #######################################################################################################################
 #######################################################################################################################
@@ -271,6 +273,7 @@ plot(covid$country,covid$cases,las=3,cex.lab=0.5, cex.axis=0.5)
 
 #ggplot2
 data(mpg)
+#CARICO I DATI
 head(mpg)
 
 #ggplot di esempio
@@ -286,9 +289,10 @@ ggplot(mpg,aes(x=displ,y=hwy))+geom_polygon()
 
 #ggplot di covid
 names(covid)
+#VISUALIZZA I NOMI DELLE VARIABILI
 ggplot(covid,aes(x=lon,y=lat,size=cases))+geom_point()
 
-#ESERCIZIO density: DENSITA' DI PUNTI PRESENTI IN UNA CERTA AREA
+#esercizio density: DENSITA' DI PUNTI PRESENTI IN UNA CERTA AREA
 library(spatstat)
 #creare data set per spatstat
 attach(covid)
@@ -309,6 +313,7 @@ library(spatstat)
 points(covids, pch=19)
 plot(d)
 points(covid)
+#PLOTTAGGIO DEI PUNTI
 
 #Save the .RData
 
@@ -330,7 +335,7 @@ cl <- colorRampPalette(c('yellow','orange','red')) (100)
 plot(d, col=cl)
 #PLOT DELLA DENSITA' CON USO DELLA PALETTE DENOMINATA cl
 
-#ESERCIZIO: plot della mappa della densità dal verde al blu.
+#esercizio: plot della mappa della densità dal verde al blu.
 cl <- colorRampPalette(c('green','yellow','blue')) (150)
 plot(d,col=cl)
 
@@ -347,14 +352,14 @@ coastlines <- readOGR("ne_10m_coastline.shp")
 plot(coastlines, add=T)
 #add AGGIUNGE AL PLOT PRECEDENTE UN NUOVO PLOT, IN QUESTO CASO LE COASTLINES 
 
-#ESERCIZIO: plot della mappa di densità con una nuova colorazione ed aggiunta delle coastlines
+#esercizio: plot della mappa di densità con una nuova colorazione ed aggiunta delle coastlines
 plot(d)
 cl <- colorRampPalette(c('yellow','orange','red')) (100)
 plot(d,col=cl)
 points(covids)
 plot(coastlines, add=T)
 
-# ESERCIZIO: Caricare il dato .RData workspace point_pattern.RData con la funzione load() e creare un grafico della mappa di densità.
+#esercizio: Caricare il dato .RData workspace point_pattern.RData con la funzione load() e creare un grafico della mappa di densità.
 library(spatstat)
 library(rgdal) #per poter inserire le coastlines
 
@@ -376,13 +381,13 @@ View(covid)
 
 marks(covids) <- covid$cases
 #ESTRAE IL POINT PATTERN (CASES) E LO ASSOCIA A COVID 
-
+#ESTRAEI DATI ASSOCIATI AL DATASET
 #Smooth()FUNZIONE CHE PERMETTE DI OTTENERE UNA MAPPA CONTINUA DEI VARI PUNTI DI COVID IN BASE AI CASI
 s <- Smooth(covids)
 #s E' LA MAPPA DEI CASI
 plot(s)
 
-#ESERCIZIO:plot(s) with points and coastlines
+#esercizio:plot(s) with points and coastlines
 cl5 <- colorRampPalette(c('cyan', 'purple', 'red')) (200) 
 plot(s, col=cl5, main="estimate of cases")
 points(covids)
@@ -484,7 +489,7 @@ points(Tesippp,col="green")
 
 plot(sanmarino, add=TRUE)
 
-#ESERCIZIO:plot multiframe di densità e interpolazione
+#esercizio:plot multiframe di densità e interpolazione
 #par() CREA UN MULTIFRAME
 par(mfrow=c(2,1))
 #densità
@@ -496,7 +501,7 @@ points(Tesippp, col="black")
 
 #main= INSERISCE IL TITOLO AL GRAFICO
 
-#ESERCIZIO:plot multiframe di densità e interpolazione con due colonne ed una riga 
+#esercizio:plot multiframe di densità e interpolazione con due colonne ed una riga 
 par(mfrow=c(1,2))
 #densità
 plot(dT,main="Density of points")
@@ -540,7 +545,7 @@ ls()
 library(raster)
 
 plot(p224r63_2011)
-
+#LEGENDA STANDARD
 # B1: blue
 # B2: green
 # B3: red
@@ -555,11 +560,11 @@ cl <- colorRampPalette(c('black','grey','light grey'))(100)
 #CON col= SI INSERISCE LA PALETTE
 plot(p224r63_2011, col=cl)
 
-#ESERCIZIO: inserire 5 microclassi, (L'IMMAGINE CON 5 MICROCLASSI SARA' PIU' SGRANATA
+#esercizio: inserire 5 microclassi, (L'IMMAGINE CON 5 MICROCLASSI SARA' PIU' SGRANATA
 cllow <- colorRampPalette(c('black','grey','light grey'))(5) 
 plot(p224r63_2011, col=cllow)
 
-#ESERCIZIO: gamma di colore in 'blue'
+#esercizio: gamma di colore in 'blue'
 names(p224r63_2011)
 #SI OTTENGONO I NOMI DELLE BANDE: "B1_sre" "B2_sre" "B3_sre" "B4_sre" "B5_sre" "B6_bt"  "B7_sre"
 clb <- colorRampPalette(c('dark blue','blue','light blue'))(100) 
@@ -567,7 +572,7 @@ plot(p224r63_2011$B1_sre, col=clb)
 #attach() NON FUNZIONA CON IL PACCHETTO RASTER
 #IL SIMBOLO CHE LEGA LA COLONNA(banda) AL DATA SET (immagine satellitare)E' IL $
 
-#ESERCIZIO: plottare la banda dell'infrasosso vicino (nir) con colorRampPalette in rosso, arancione e giallo.
+#esercizio: plottare la banda dell'infrasosso vicino (nir) con colorRampPalette in rosso, arancione e giallo.
 clnir <- colorRampPalette(c('red','orange','yellow')) (100)
 plot(p224r63_2011$B4_sre, col=clnir)
 #LE PIANTE RIFLETTONO MOLTO IN NEAR INFRARED(nir), QUINDI IN QUESTO CASO PROBABILMENTE C'E' MOLTA VEGETAZIONE
@@ -621,12 +626,12 @@ plotRGB(p224r63_2011, r=3, g=2, b=1, stretch="Lin")
 plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
 dev.off()
 
-#ESERCIZIO: nir nella componente G(green). In precedenza era stato montato in red.
+#esercizio: nir nella componente G(green). In precedenza era stato montato in red.
 plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")
 #LA VEGETAZIONE DIVENTA VERDE
 #LA ZONA AGRICOLA E' RAPPRESENTATA IN VIOLA
 
-#ESERCIZIO: nir nella componente B(blu)
+#esercizio: nir nella componente B(blu)
 plotRGB(p224r63_2011, r=3, g=2, b=4, stretch="Lin")
 #LA VEGETAZIONE DIVENTA BLU
 #LA ZONA AGRICOLA DIVENTA GIALLA
@@ -676,7 +681,7 @@ dev.off()
 #stretch() PERMETTE DI VEDERE MEGLIO I COLORI "ALLUNGANDOLI"
 #plot con colori naturali, rosso verde e blu.
 plotRGB(p224r63_1988,r=3,g=2,b=1, stretch="Lin")
-#ESERCIZIO: plotta l'immagine usando nir nella componente "r" in RGB
+#esercizio: plotta l'immagine usando nir nella componente "r" in RGB
 plotRGB(p224r63_1988,r=4,g=3,b=2, stretch="Lin")
 
 #plot delle due immagini 2011 e 1988
@@ -710,11 +715,10 @@ cldifdvi <- colorRampPalette(c('red','white','blue'))(100) #
 plot(difdvi, col=cldifdvi)
 
 #visualize the output
-#multiframe= 1988rgb, 2011rgb e difdiv
+#multiframe= 1988rgb, 2011rgb e difdiv, TRE RIGHE E UNA COLONNA
 par(mfrow=c(3,1))
 plotRGB(p224r63_1988, r=4, g=3, b=2, stretch="Lin")
 plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
-
 plot(difdvi, col=cldifdvi)
 
 dev.off()
@@ -777,7 +781,7 @@ library(raster)
 p224r63_2011 <- brick("p224r63_2011_masked.grd")
 
 install.packages("RStoolbox")
-
+#PACCHETTO CHE CI PERMETTE DI FARE UN'ANALISI DI LAND COVER
 library(RStoolbox)
 
 #landsat bands 1b, 2g, 3r, 4nir
@@ -808,6 +812,7 @@ plot(p224r63_2011c$map)
 #DIMINUIAMO IL NUMERO DI CLASSI (2)
 p224r63_2011c <- unsuperClass(p224r63_2011, nClasses=2)
 plot(p224r63_2011c$map)
+#PIU' DIMINUISCO IL NUMERO DELLE CLASSI PIU' L'ERRORE AUMENTA
 
 ###########################################################################################################################
 ###########################################################################################################################
@@ -834,7 +839,7 @@ defor1
 
 plotRGB(defor1, r=1, g=2, b=3, stretch="Lin")
 
-#ESERCIZIO:plot di defor2
+#esercizio:plot di defor2
 plotRGB(defor2, r=1, g=2,b=3, stretch="Lin")
 
 #CARICARE ENTRAMBE LE IMMAGINI CON LA FUNZIONE par()
@@ -854,12 +859,12 @@ plot(d1c$map)
 cl <- colorRampPalette(c('black','green'))(100)
 plot(d1c$map, col=cl)
 
-#ESEMPIO sul significato del $
+#esempio sul significato del $
 #mappageologica <- geomap(im_sat, nClasses=...)
 #plot(mappageologica$lito)
 #plot(mappageologica$lineaments)
 
-#ESERCIZIO: classificazione immagine satellitare defor2 con due classi
+#esercizio: classificazione immagine satellitare defor2 con due classi
 d2c <- unsuperClass(defor2, nClasses=2)
 plot(d2c$map, col=cl)
 #CLASSE 1 NON FORESTA
@@ -938,7 +943,7 @@ ggplot(output, aes(x=cover, y=before, color=cover)) +
 geom_bar(stat="identity", fill="white")
 #identity: VENGONO PRESI DIRETTAMENTE I VALORI DI COPERTURAsi 
 
-#ESERCIZIO: % cover after deforestation
+#esercizio: % cover after deforestation
 ggplot(output, aes(x=cover, y=after, color=cover)) +
 geom_bar(stat="identity", fill="white")
 
@@ -946,7 +951,7 @@ geom_bar(stat="identity", fill="white")
 install.packages("gridExtra")
 library(gridExtra) #require()
 
-#ESERCIZIO: use grid.arrange to plot the two graphs
+#esercizio: use grid.arrange to plot the two graphs
 #grid.arrange PRENDE I VARI PLOT E LI METTE INSIEME IN UN UNICO GRAFICO, HA LA STESSA FUNZIONE DELLA FUNZIONE par()
 grafico1 <- ggplot(output, aes(x=cover, y=before, color=cover)) + 
 geom_bar(stat="identity", fill="white")
@@ -986,6 +991,7 @@ ylim(0, 100)
 grafico2 <- ggplot(output, aes(x=cover, y=after, color=cover)) + 
 geom_bar(stat="identity", fill="white") +
 ylim(0, 100)
+#ylim 100 I GRAFICI SONO PIU' CONFRONTABILI
 
 # Exercise: use grid.arrange to plot the two graphs 
 grid.arrange(grafico1, grafico2, nrow = 1)
@@ -1006,6 +1012,7 @@ EN01 <- raster("EN_0001.png")
 #raster()FUNZIONE CHE PERMETTE DI CARICARE UN'IMMAGINE CON UNA SOLA BANDA
 #FUNZIONE CONTRARIA A brick() CHE CARICA TUTTE LE BANDE
 plot(EN01)
+#SITUAZIONE DELL'AZOTO A GENNAIO
 
 #Esercizio: import all the images 
 EN01 <- raster("EN_0001.png")
@@ -1040,7 +1047,8 @@ dev.off()
 difno2 <- EN13 - EN01
 cldif <- colorRampPalette(c('blue','black','yellow'))(100) 
 plot(difno2, col=cldif)
-
+#DUE METODI PER PLOTTARE LE MAPPE
+#METODO 1, IL PIU' LENTO
 par(mfrow=c(4,4))
 plot(EN01, col=cl)
 plot(EN02, col=cl)
@@ -1055,8 +1063,9 @@ plot(EN10, col=cl)
 plot(EN11, col=cl)
 plot(EN12, col=cl)
 plot(EN13, col=cl)
-
-#plot (EN01, EN02, EN03, EN04, EN05, EN06, EN07, EN08, EN09, EN10, EN11, EN12, col=cl)
+#METODO 2, PIU' RAPIDO
+#EN<- stack(EN01, EN02, EN03, EN04, EN05, EN06, EN07, EN08, EN09, EN10, EN11, EN12, EN13)
+#CON LO STACK LE TREDICI IMMAGINI SONO RACCHIUSE IN UN'UNICA IMMAGINE
 
 #DAY2
 
@@ -1075,6 +1084,7 @@ rlist=list.files(pattern=".png", full.names=T)
 #PER EVITARE DI INSERIRE TUTTE LE IMMAGINI MANUALMENTE E' POSSIBILE UTILIZZARE LA FUNZIONE lapply()
 #con lapply
 list_rast=lapply(rlist, raster)
+#APPLICA UNA FUNZIONE A TUTTI I FILES NELLO STESSO MOMENTO
 
 #con ciclo for
 list_rast=list()
@@ -1139,6 +1149,7 @@ cl <- colorRampPalette(c('red','orange','yellow'))(100) #
 plot(EN, col=cl)
  
 #boxplot di EN
+#CREA UN GRAFICO DOVE SI VEDE LA DISTRIBUZIONE
 boxplot(EN)
 #GRAFICO IN ORIZZONTALE
 boxplot(EN,horizontal=T)
@@ -1167,7 +1178,7 @@ snowmay <- raster("c_gls_SCE500_202005180000_CEURO_MODIS_V1.0.1.nc")
 
 cl <- colorRampPalette(c('darkblue','blue','light blue'))(100)
 
-#ESERCIZIO:plot snow cover vit the cl palette
+#esercizio:plot snow cover vit the cl palette
 cl <- colorRampPalette(c('darkblue','blue','light blue'))(100)
 plot(snowmay, col=cl)
 
@@ -1193,6 +1204,7 @@ plot(snow.multitemp$snow2020r, col=cl)
 
 #zlim
 #INDICA I LIMITI MIN E MAX
+#IN QUESTO MODO UNIFICHIAMO IL LIMITE TRA LE DUE IMMAGINI
 par(mfrow=c(1,2))
 plot(snow.multitemp$snow2000r, col=cl, zlim=c(0,250))
 plot(snow.multitemp$snow2020r, col=cl, zlim=c(0,250))
@@ -1290,7 +1302,7 @@ writeRaster(d2c.for.pacthes, "d2c.for.patches.tif")
 #PER IMPORTARE I FILES file raster() o brick()
 #PER ESPORTARE I FILESwriteRaster()
 
-#ESERCIZIO: plottare le mappe una accanto all'altra
+#esercizio: plottare le mappe una accanto all'altra
 par(mfrow=c(1,2))
 plot(d1c.for.pacthes)
 plot(d2c.for.pacthes)
@@ -1331,10 +1343,11 @@ ggplot(output, aes(x=time, y=npatches, color="red")) + geom_bar(stat="identity",
 #stack()FUNZIONE CHE VA AD APPLICARE LA FUNZIONE DI RIFERIMENTO(ESEMPIO: RASTER IN UN INTERA LISTA DI FILES)
 
 library(raster)
-
+library(ncdf4)
+#SERVE PER UTILIZZARE IL DATO CON PATTERN .nc
 setwd("C:/lab/snow")
 
-#ESERCIZIO: Upload the whole snow set (2000, 2005, 2010, 2015, 2020)
+#esercizio: Upload the whole snow set (2000, 2005, 2010, 2015, 2020)
 
 rlist <- list.files(pattern="snow")
 rlist 
@@ -1370,6 +1383,7 @@ plot(snow.multitemp$snow2010r, col=clb)
  
 #zoom (nome immagine ed estensione)
 zoom(snow.multitemp$snow2010r, ext=drawExtent())
+#clic per indicare il punto che si vuole studiare e poi cliccare di nuovo
 
 #crop
 #NON VA DICHIARATO EXTENT
@@ -1379,10 +1393,10 @@ extension <- c(6, 20, 35, 50)
 snow2010r.italy <- crop(snow.multitemp$snow2010r, extension)
 plot(snow2010r.italy, col=clb)
 
-#stack SERIE MULTITEMPORALE SERIE MULTITEMPORALE CHE ABBIAMO CREATO IN PRECEDENZA CON lapply
+#stack() SERIE MULTITEMPORALE CHE ABBIAMO CREATO IN PRECEDENZA CON lapply
 
 #crop di un intero stack
-#ESERCIZIO: crop the Italy extent on the whole stack of snow layers
+#esercizio: crop the Italy extent on the whole stack of snow layers
 #partire dallo stack e creare un crop
 snow.multitemp.italy <- crop(snow.multitemp, extension)
 plot(snow.multitemp.italy, col=clb)
@@ -1404,26 +1418,26 @@ boxplot(snow.multitemp.italy, horizontal=T,outline=F)
 
 ### 12. Species Distribution Modelling (SDM)
 
-#no settaggio della cartella perche usiamo i dati del pacchetto
+#NON SERVE IL SETTAGGIO DELLA CARTELLA PERCHE' USIAMO I DAI NEL PACCHETTO
 install.packages("sdm")
 library(sdm)
 library(raster)
-library(rgdal) #gestisce al meglio dati raster e vettoriali
-#in questo caso dati vettoriali
+library(rgdal) #GESTISCE AL MEGLIO I DATI RASTER E VETTORIALI
+#IN QUESTO CASO DATI VETTORIALI
 
 #file vettoriali: coordinate x,y 
-#punti linee e poligoni
+#PUNTI-LINEE-POLIGONI
 
-#caricato il file
+#CARICARE IL FILE
 file <- system.file("external/species.shp", package="sdm")
-#caricare la parte grafica e le informazioni correlate ai vari punti
+#SUCCESSIVAMENTE CARICARE LA PARTE GRAFICA E LE INFORMAZIONI CORRELATE AI VARI PUNTI
 species <- shapefile(file)
 
 species
-#valori del file
-#fuso numero 30 (tra spagna e francia)
-#italia ricade nel fuso 32 e 33
-#occurrence: unica informazione, se una specie è presente o meno
+#VALORI DEL FILE
+#CI TROVIAMO CIRCA NEL FUSO NUMERO 30 (tra spagna e francia)
+#L'ITALIA RICADE NEI FUSI 32 e 33
+#occurrence: UNICA INFORMAZIONE, SE LA SPECIE E' PRESENTE O MENO
 
 species$occurrence
 # [1] 1 0 1 1 1 0 0 1 1 1 1 1 1 0 1 1 0 1 1 0 0 1 0 1 1 0 1 0 1 0 1 0 1 1 1 1 0
@@ -1435,12 +1449,13 @@ species$occurrence
 
 plot(species)
 
-#modificare le presenze dalle assenze
+#MODIFICARE LE PRESENZE DALLE ASSENZE
 
 plot(species[species$Occurrence == 1,],col='blue',pch=16)
-#plot (data set, per tutte le occorrenze di presenza quindi =1, (virgola interrompe la misurazione)) colore blu e tipo di punto=16
+#PLOT DEL DATA SET, PER TUTTE LE OCCORRENDE DI PRESENZA, QUINDI=1
+#LA VIRGOLA INTERROMPE LA MISURAZIONE COLORE BLU E TIPO DI PUNTO 16
 points(species[species$Occurrence == 0,],col='red',pch=16)
-#points invece di plot per aggiungerle alla funzione precedente
+#POINTS VIENE USATO PER AGGIUNGERE LE INFORMAZIONI ALLA FUNZIONE PRECEDENTE
 
 #variabili ambientali
 #esempio: temperatura
@@ -1449,7 +1464,7 @@ path <- system.file("external", package="sdm")
 
 #pattern: asc (file ascii)
 lst <- list.files(path=path,pattern='asc$',full.names = T) #
-#variabili ambientali che servono a prevedere la oresenza della specie
+#LE VARIABILI AMBIENTALI CHE SERVONO A PREVEDERE LA PRESENZA DELLA SPECIE
 lst
 #[1] "C:/Users/Serena/Documents/R/win-library/3.6/sdm/external/elevation.asc"    
 #[2] "C:/Users/Serena/Documents/R/win-library/3.6/sdm/external/precipitation.asc"
@@ -1457,29 +1472,28 @@ lst
 #[4] "C:/Users/Serena/Documents/R/win-library/3.6/sdm/external/vegetation.asc" 
 
 #stack delle variabili
-#uniamo quota, precipitazion, temperature, vegetazione in un unico blocco 
-preds <- stack(lst)
+#UNIAMO LA QUOTA, LE PRECIPITAZIONI,LA TEMPERATURA E LA VEGETAZIONE IN UN SOLO BLOCCO
 cl <- colorRampPalette(c('blue','orange','red','yellow')) (100)
 plot(preds, col=cl)
 
 plot(preds$elevation, col=cl)
 
-#uniamo al plot i punti che hanno occorrenze= a 1
+#UNIAMO AL PLOT I PUNTI CHE HANNO OCCORRENZE 0 A 1
 
 points(species[species$Occurrence == 1,], pch=16)
- #la specie predilige una bassa quota
+#LA SPECIE PREDILIGE UNA BASSA QUOTA
 
 plot(preds$temperature, col=cl)
 points(species[species$Occurrence == 1,], pch=16)
-#la specie predilige una temperatura medio alta
+#LA SPECIE PREDILIGE UNA TEMPERATURA MEDIO-ALTA
 
 plot(preds$precipitation, col=cl)
 points(species[species$Occurrence == 1,], pch=16)
-#la specie predilige una siuazione intermedia
+#LA SPECIE PREDILIGE UNA SITUAZIONE INTERMEDIA
 
 plot(preds$vegetation, col=cl)
 points(species[species$Occurrence == 1,], pch=16)
-#la specie predilige l'ombra quindi con molta vegetazione
+#LA SPECIE PREDILIGE L'OMBRA, UN'ELEVATA VEGETAZIONE
 
 #glm 
 
@@ -1504,7 +1518,7 @@ p1 <- predict(m1, newdata=preds)
 
 plot(p1, col=cl)
 points(species[species$Occurrence == 1,], pch=16)
-#mappa di distribuzione della specie, prediction
+#MAPPA DI DISTRIBUZIONE DELLA SPECIE, PREDICTION
 
 ####################################################################################################################################
 ####################################################################################################################################
