@@ -19,8 +19,8 @@
 ###1. R_code_primocod.r
 #PRIMO CODICE R ECOLOGIA DEL PAESAGGIO
 
-#FUNZIONE PER INSTALLARE I PACCHETTI
 install.packages("sp")
+#FUNZIONE PER INSTALLARE I PACCHETTI
 #LE VIRGOLETTE SERVONO PER USCIRE DAL SOFTWARE
 
 #PER RICHIAMARE I PACCHETTI library() o require()
@@ -105,14 +105,13 @@ pairs(meuse[,3:6], lower.panel = panel.smoothing, upper.panel = panel.correlatio
 
 attach(meuse)
 #IL DATABASE E' COLLEGATO AL PERCORSO DI RICERCA R, E' POSSIBILE ACCEDERE AGLI OGGETTI NEL DATABASE ASSEGNANDO SEMPLICEMENTE IL NOME
-# AL POSTO DELLA FUNZIONE ATTACH SI PUO' ANCHE UTILIZZARE IL SIMBOLO $ CHE LEGA LA VARIABILEAL DATASET
-#attach(): FUNZIONA CON TUTTI I PACCHETTI
+# AL POSTO DELLA FUNZIONE ATTACH SI PUO' ANCHE UTILIZZARE IL SIMBOLO $ CHE LEGA LA VARIABILE AL DATASET
 
 #funzione plot(meuse$cadmium , meuse$copper)
 plot(cadmium , copper)
 
 plot(cadmium , copper , pch=18 , col="blue" , main="primo plot" , xlab="cadmio" , ylab="rame")
-#xlab,DA IL TITOLO ALL'ASSE DELLE ASCISSE MENTRE ylabLO DA ALL'ASSE DELLE ORDINATE
+#xlab DA IL TITOLO ALL'ASSE DELLE ASCISSE MENTRE ylabLO DA ALL'ASSE DELLE ORDINATE
 plot(cadmium , copper , pch=18 , col="blue" , main="primo plot" , xlab="cadmio" , ylab="rame" , cex.lab=2 , cex=2)
 
 #############################################################################################################################
@@ -173,8 +172,6 @@ plot(meuse)
 
 spplot(meuse,"zinc")
 #spplot() serve per plottare i dati spazialmente
-
-#VETTORE: QUANDO SI RIPETONO NUMERI O CARATTERI
 
 #CRAN MIRROR: SOFTWARE UNICO CHE VIENE PROGETTATO IN TUTTO IL MONDO
 
@@ -238,6 +235,7 @@ head(covid)
 #CODICE PER ANALISI DEI POINT PATTERNS
 
 install.packages("ggplot2")
+
 # per richiamare il pacchetto library() oppure require()
 install.packages("spatstat")
 
@@ -247,8 +245,8 @@ library(spatstat)
 
 setwd("C:/lab")
 
-#PER IMPORTARE I DATI IN FORMATO TABELLA
 covid <- read.table("covid_agg.csv", head=T)
+#read.table() FUNZIONE CHE IMPORTA I DATI IN FORMATO TABELLA
 
 head(covid)
 #per visualizzare le prime righe
@@ -274,6 +272,7 @@ plot(covid$country,covid$cases,las=3,cex.lab=0.5, cex.axis=0.5)
 #ggplot2
 data(mpg)
 #CARICO I DATI
+
 head(mpg)
 
 #ggplot di esempio
@@ -323,7 +322,7 @@ load(".RData")
 #LA FUNZIONE load() SERVE PER CARICARE I POINT PATTERN IN RData
 
 ls()
-# PERMETTE DI VEDERE LA LISTA DEI VARI FILES DELL'RData
+#ls() PERMETTE DI VEDERE LA LISTA DEI VARI FILE DELL'RData
 
 plot(d)
 
@@ -341,7 +340,6 @@ plot(d,col=cl)
 
 #PER AGGIUNGERE I PUNTI DEL COVID SI UTILIZZA LA FUNZIONE POINT()
 points(covids)
-
 
 library(rgdal)
 #PERMETTE DI CARICARE DEI DATI DALL'ESTERNO
@@ -381,7 +379,7 @@ View(covid)
 
 marks(covids) <- covid$cases
 #ESTRAE IL POINT PATTERN (CASES) E LO ASSOCIA A COVID 
-#ESTRAEI DATI ASSOCIATI AL DATASET
+#ESTRAE I DATI ASSOCIATI AL DATASET
 #Smooth()FUNZIONE CHE PERMETTE DI OTTENERE UNA MAPPA CONTINUA DEI VARI PUNTI DI COVID IN BASE AI CASI
 s <- Smooth(covids)
 #s E' LA MAPPA DEI CASI
@@ -445,8 +443,10 @@ points(Tesippp, col="black")
 # DAY 3
 
 setwd("C:/lab/")
-#LE VIRGOLETTE SERVONO A CARICARE FILES DALL'ESTERNO 
+#LE VIRGOLETTE SERVONO A CARICARE FILE DALL'ESTERNO
+
 load("sanmarino.RData")
+
 ls()
 #dT:mappa di densità ; Tesi: dataset originale ; Tesippp: point pattern (Longitudine e Latitudine) 
 
@@ -463,7 +463,7 @@ head(Tesi)
 
 marks(Tesippp) <- Tesi$Species_richness
 #marks() ASSOCIA I VALORI DELLA VARIABILE AL POINT PATTERN
-#PRENDERE I SINGOLI PUNTI DI CAMPIONAMENTOED ASSOCIARLI AI SINGOLI PUNTI DEL POINT PATTERN
+#PRENDERE I SINGOLI PUNTI DI CAMPIONAMENTO ED ASSOCIARLI AI SINGOLI PUNTI DEL POINT PATTERN
 #IN QUESTO CASO SPECIES RICHNESS
 
 #PER VEDERE L'UTILIZZO DI UNA SINGOLA FUNZIONE VA INSERITO SU R IL NOME DELLA FUNZIONE 
@@ -545,6 +545,7 @@ ls()
 library(raster)
 
 plot(p224r63_2011)
+
 #LEGENDA STANDARD
 # B1: blue
 # B2: green
@@ -560,7 +561,7 @@ cl <- colorRampPalette(c('black','grey','light grey'))(100)
 #CON col= SI INSERISCE LA PALETTE
 plot(p224r63_2011, col=cl)
 
-#esercizio: inserire 5 microclassi, (L'IMMAGINE CON 5 MICROCLASSI SARA' PIU' SGRANATA
+#esercizio: inserire 5 microclassi, (L'IMMAGINE CON 5 MICROCLASSI SARA' PIU' SGRANATA)
 cllow <- colorRampPalette(c('black','grey','light grey'))(5) 
 plot(p224r63_2011, col=cllow)
 
@@ -570,12 +571,12 @@ names(p224r63_2011)
 clb <- colorRampPalette(c('dark blue','blue','light blue'))(100) 
 plot(p224r63_2011$B1_sre, col=clb)
 #attach() NON FUNZIONA CON IL PACCHETTO RASTER
-#IL SIMBOLO CHE LEGA LA COLONNA(banda) AL DATA SET (immagine satellitare)E' IL $
+#IL SIMBOLO CHE LEGA LA COLONNA (banda) AL DATA SET (immagine satellitare)E' IL $
 
 #esercizio: plottare la banda dell'infrasosso vicino (nir) con colorRampPalette in rosso, arancione e giallo.
 clnir <- colorRampPalette(c('red','orange','yellow')) (100)
 plot(p224r63_2011$B4_sre, col=clnir)
-#LE PIANTE RIFLETTONO MOLTO IN NEAR INFRARED(nir), QUINDI IN QUESTO CASO PROBABILMENTE C'E' MOLTA VEGETAZIONE
+#LE PIANTE RIFLETTONO MOLTO IN NEAR INFRARED(nir), QUINDI IN QUESTO CASO PROBABILMENTE E' PRESENTE MOLTA VEGETAZIONE
 
 #multiframe
 #par() FUNZIONE CHE PERMETTE DI UTILIZZARE A BLOCCHI LA FIESTRA
@@ -605,8 +606,9 @@ dev.off()
 # B2: green - 2
 # B3: red - 3
 # B4: near infrared (nir) - 4
+
 plotRGB(p224r63_2011, r=3, g=2, b=1) 
-#PER ALLARGARE I COLORIstretch() stretch="Lin"= lineare, E' IL PIU' UTILIZZATO 
+#PER ALLARGARE I COLORI stretch() stretch="Lin"= lineare, E' IL PIU' UTILIZZATO 
 plotRGB(p224r63_2011, r=3, g=2, b=1, stretch="Lin")
 
 #nir
@@ -620,6 +622,7 @@ plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
 pdf("primo grafico.pdf")
 plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
 dev.off()
+
 #nir nella componente R(red)
 par(mfrow=c(2,1))
 plotRGB(p224r63_2011, r=3, g=2, b=1, stretch="Lin")
@@ -678,6 +681,7 @@ dev.off()
 # B2: green - 2
 # B3: red - 3
 # B4: near infrared (nir) - 4
+
 #stretch() PERMETTE DI VEDERE MEGLIO I COLORI "ALLUNGANDOLI"
 #plot con colori naturali, rosso verde e blu.
 plotRGB(p224r63_1988,r=3,g=2,b=1, stretch="Lin")
@@ -691,6 +695,7 @@ plotRGB(p224r63_1988,r=4,g=3,b=2, stretch="Lin",main="1988")
 plotRGB(p224r63_2011,r=4,g=3,b=2, stretch="Lin",main="2011")
 dev.off()
 #CON RASTER NON VIENE CONSIDERATO main CHE HA LA FUNZIONE DI DARE UN TITOLO ALL'IMMAGINE
+
 #LA FOGLIA DI UNA PIANTA SANA RIFLETTE MOLTO IN NIR E POCO NELLA BANDA DEL ROSSO PERCHE' VIENE ASSORBITA PER FARE LA FOTOSINTESI
 #LA FOGLIA DI UNA PIANTA MALATA RIFLETTE MENO IL NIR, LA BANDA DEL ROSSO AUMENTA PERCHE' NON FA PIU' FOTOSINTESI QUINDI NON VIENE ASSORBITO
 #SPECTRAL INDICES
@@ -794,9 +799,10 @@ p224r63_2011c <- unsuperClass(p224r63_2011, nClasses=4)
 #IMMAGINE PIU' NUMERO DI CLASSI DESIDERATE
 
 p224r63_2011
-# INSERENDO IL NOME DELL'IMMAGINE p224r63_2011c SI OTTENGONO TUTTE LE INFORMAZIONI
+#INSERENDO IL NOME DELL'IMMAGINE p224r63_2011c SI OTTENGONO TUTTE LE INFORMAZIONI
 
 plot(p224r63_2011c$map)
+#CON LA FUNZIONE unsuperClass() 
 #$ SIMBOLO ALTERNATIVO ALLA FUNZIONE ATTACH
 #MAP E' LA MAPPA CHE IL PLOT HA GENERATO
 
@@ -941,7 +947,7 @@ library(ggplot2)
 #histograms of the % cover before deforestation
 ggplot(output, aes(x=cover, y=before, color=cover)) +
 geom_bar(stat="identity", fill="white")
-#identity: VENGONO PRESI DIRETTAMENTE I VALORI DI COPERTURAsi 
+#identity: VENGONO PRESI DIRETTAMENTE I VALORI DI COPERTURA
 
 #esercizio: % cover after deforestation
 ggplot(output, aes(x=cover, y=after, color=cover)) +
@@ -1065,6 +1071,7 @@ plot(EN12, col=cl)
 plot(EN13, col=cl)
 #METODO 2, PIU' RAPIDO
 #EN<- stack(EN01, EN02, EN03, EN04, EN05, EN06, EN07, EN08, EN09, EN10, EN11, EN12, EN13)
+
 #CON LO STACK LE TREDICI IMMAGINI SONO RACCHIUSE IN UN'UNICA IMMAGINE
 
 #DAY2
@@ -1084,7 +1091,7 @@ rlist=list.files(pattern=".png", full.names=T)
 #PER EVITARE DI INSERIRE TUTTE LE IMMAGINI MANUALMENTE E' POSSIBILE UTILIZZARE LA FUNZIONE lapply()
 #con lapply
 list_rast=lapply(rlist, raster)
-#APPLICA UNA FUNZIONE A TUTTI I FILES NELLO STESSO MOMENTO
+#APPLICA UNA FUNZIONE A TUTTI I FILE NELLO STESSO MOMENTO
 
 #con ciclo for
 list_rast=list()
@@ -1106,9 +1113,9 @@ setwd("C:/lab/esa_no2")
 #INDICARE LA CARTELLA SU CUI SI ANDRA' A LAVORARE
 
 rlist <- list.files(pattern=".png")
-#LA LISTA VERRA' CREATA CON TUTTI I FILES PRESENTI ALL'INTERNO DELLA CARTELLA esa_no2 CON CONFIGURAZIONE .png (pattern)
+#LA LISTA VERRA' CREATA CON TUTTI I FILE PRESENTI ALL'INTERNO DELLA CARTELLA esa_no2 CON CONFIGURAZIONE .png (pattern)
 rlist
-#FA VEDERE TUTTI I FILES .png
+#FA VEDERE TUTTI I FILE .png
 
 listafinale <- lapply(rlist, raster)
 #lapply() SERVE AD APPLICARE UNA FUNZIONE SU UNA LISTA O UN VETTORE (UNA SERIE DI ELEMENTI)
@@ -1124,10 +1131,10 @@ cl <- colorRampPalette(c('red','orange','yellow'))(100)
 plot(EN, col=cl)
 
 #PASSAGGI
-#1.CREARE UNA CARTELLA CON TUTTI I FILES
-#2LISTA DI FILES
+#1.CREARE UNA CARTELLA CON TUTTI I FILE
+#2.LISTA DI FILE
 #3.IMPORTARE LA LISTA
-#4.FARE UNO STACK DI TUTTE LE BANDE IMPORTATE IN UNA SINGOLA IMMAGINE
+#4.FARE UNO STACK DI TUTTE LE IMMAGINI IMPORTATE IN UNA SINGOLA IMMAGINE
 
 # DAY 2
 
@@ -1138,7 +1145,7 @@ setwd("C:/lab/esa_no2")
 rlist <- list.files(pattern=".png")
 listafinale <- lapply(rlist, raster)
 EN <- stack(listafinale)
-#LISTA DEI FILES
+#LISTA DEI FILE
 
 #DIFFERENZA PRIMA E ULTIMA IMMAGINE
 difEN <- EN$EN_0013 - EN$EN_0001
@@ -1166,12 +1173,12 @@ boxplot(EN, horizontal=T,outline=F,axes=T)
 
 setwd("C:/lab")
 
+#PER VISUALIZZARE IL FILE .nc VA PRIMA IMPORTATO
 install.packages("ncdf4") 
 #QUESTO PACCHETTO PERMETTE DI VEDERE I DATI CON ESTENSIONE .nc
 library(ncdf4)
 library(raster)
 
-#PER VISUALIZZARE IL FILE .nc VA PRIMA IMPORTATO
 #LA FUNZIONE raster()IMPORTA UNA SINGOLA BANDA
 #LA FUNZIONE brick() IMPORTA VARI LIVELLI CON DIVERSE BANDE, SI TROVA NEL PACCHETTO RASTER
 snowmay <- raster("c_gls_SCE500_202005180000_CEURO_MODIS_V1.0.1.nc")
@@ -1183,7 +1190,7 @@ cl <- colorRampPalette(c('darkblue','blue','light blue'))(100)
 plot(snowmay, col=cl)
 
 #import snow data
-#VA CAMBIATA LA WORKING DIRECTORY PERHE' I FILES CHE DOBBIAMO UTILIZZARE SI TROVANO IN UNA NUOVA CARTELLA
+#VA CAMBIATA LA WORKING DIRECTORY PERHE' I FILE CHE DOBBIAMO UTILIZZARE SI TROVANO IN UNA NUOVA CARTELLA
 #ALL'INTERNO DELLA CARTELLA LAB
 setwd("C:/lab/snow")
 
@@ -1191,11 +1198,10 @@ setwd("C:/lab/snow")
 rlist <- list.files(pattern=".tif")
 rlist
 list_rast <- lapply(rlist, raster)
-#lapply() IMPORTA UNA LISTA DI FILES INSIEME
 
 snow.multitemp <- stack(list_rast)
 plot(snow.multitemp,col=cl)
-#stack() PERMETTE DI UNIRE TUTTI I FILES IN UN FILE UNICO 
+#stack() PERMETTE DI UNIRE TUTTI I FILE IN UN FILE UNICO 
 
 #multitemp
 par(mfrow=c(1,2))
@@ -1289,7 +1295,7 @@ plot(d2c)
 #MAPPE SOLO CON LE FORESTE
 
 #creating patches
-#clump()PATCHES DI CELLE CONNESSE TRA DI LORO, SI TROA NEL PACCHETTO RASTER
+#clump()PATCHES DI CELLE CONNESSE TRA DI LORO, SI TROVA NEL PACCHETTO RASTER
 #clump()APPLICARA ALLE MAPPE
 d1c.for.patches <- clump(d1c.for)
 d2c.for.patches <- clump(d2c.for)
@@ -1340,15 +1346,15 @@ ggplot(output, aes(x=time, y=npatches, color="red")) + geom_bar(stat="identity",
 
 #crop DEI DATI DELLA CRIOSFERA
 #serie di immagini 
-#stack()FUNZIONE CHE VA AD APPLICARE LA FUNZIONE DI RIFERIMENTO(ESEMPIO: RASTER IN UN INTERA LISTA DI FILES)
+#lapply() FUNZIONE CHE VA AD APPLICARE LA FUNZIONE DI RIFERIMENTO(ESEMPIO: RASTER IN UN INTERA LISTA DI FILES)
 
 library(raster)
 library(ncdf4)
 #SERVE PER UTILIZZARE IL DATO CON PATTERN .nc
+
 setwd("C:/lab/snow")
 
 #esercizio: Upload the whole snow set (2000, 2005, 2010, 2015, 2020)
-
 rlist <- list.files(pattern="snow")
 rlist 
 #CREARE UNA LISTA DI FILES DA POTER INSERIRE ALL'INTERNO DI R
@@ -1383,7 +1389,7 @@ plot(snow.multitemp$snow2010r, col=clb)
  
 #zoom (nome immagine ed estensione)
 zoom(snow.multitemp$snow2010r, ext=drawExtent())
-#clic per indicare il punto che si vuole studiare e poi cliccare di nuovo
+#SI VA SULLA MAPPA CON IL MOUSE PER INDICARE IL PUNTO CHE SI VUOLE STUDIARE, INFINE PER CONFERMARE DI NUOVO CLIC
 
 #crop
 #NON VA DICHIARATO EXTENT
@@ -1418,7 +1424,7 @@ boxplot(snow.multitemp.italy, horizontal=T,outline=F)
 
 ### 12. Species Distribution Modelling (SDM)
 
-#NON SERVE IL SETTAGGIO DELLA CARTELLA PERCHE' USIAMO I DAI NEL PACCHETTO
+#NON SERVE IL SETTAGGIO DELLA CARTELLA PERCHE' USIAMO I DAI PRESENTI NEL PACCHETTO
 install.packages("sdm")
 library(sdm)
 library(raster)
@@ -1435,7 +1441,7 @@ species <- shapefile(file)
 
 species
 #VALORI DEL FILE
-#CI TROVIAMO CIRCA NEL FUSO NUMERO 30 (tra spagna e francia)
+#CI TROVIAMO CIRCA NEL FUSO NUMERO 30 
 #L'ITALIA RICADE NEI FUSI 32 e 33
 #occurrence: UNICA INFORMAZIONE, SE LA SPECIE E' PRESENTE O MENO
 
@@ -1452,7 +1458,7 @@ plot(species)
 #MODIFICARE LE PRESENZE DALLE ASSENZE
 
 plot(species[species$Occurrence == 1,],col='blue',pch=16)
-#PLOT DEL DATA SET, PER TUTTE LE OCCORRENDE DI PRESENZA, QUINDI=1
+#PLOT DEL DATA SET, PER TUTTE LE OCCORRENZE DI PRESENZA, QUINDI=1
 #LA VIRGOLA INTERROMPE LA MISURAZIONE COLORE BLU E TIPO DI PUNTO 16
 points(species[species$Occurrence == 0,],col='red',pch=16)
 #POINTS VIENE USATO PER AGGIUNGERE LE INFORMAZIONI ALLA FUNZIONE PRECEDENTE
@@ -1465,6 +1471,7 @@ path <- system.file("external", package="sdm")
 #pattern: asc (file ascii)
 lst <- list.files(path=path,pattern='asc$',full.names = T) #
 #LE VARIABILI AMBIENTALI CHE SERVONO A PREVEDERE LA PRESENZA DELLA SPECIE
+
 lst
 #[1] "C:/Users/Serena/Documents/R/win-library/3.6/sdm/external/elevation.asc"    
 #[2] "C:/Users/Serena/Documents/R/win-library/3.6/sdm/external/precipitation.asc"
@@ -1523,7 +1530,8 @@ points(species[species$Occurrence == 1,], pch=16)
 ####################################################################################################################################
 ####################################################################################################################################
 ####################################################################################################################################
-#EXAM PROJECT
+
+###13. EXAM 
 
 
 
