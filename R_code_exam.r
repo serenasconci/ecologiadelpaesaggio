@@ -1533,12 +1533,118 @@ points(species[species$Occurrence == 1,], pch=16)
 
 ###13. Exam
 
+#Lake Ice Extent (LIE) 250m
+
+#pacchetti utilizzati
 library(raster)
 library(ncdf4) #per leggere i file con pattern .nc
 library(RStoolbox) #per la classificazione
 library(rgdal)
 
 setwd("C:/lab/progetto")
+
+#1. Stack 2017-2020
+rlist <- list.files (pattern=".nc", full.names=T)
+list.lie <- lapply(rlist, raster)
+LIE<- stack(list.lie)
+cl <- colorRampPalette(c('light blue', 'blue', 'dark blue')) (150)   
+plot(LIE, col=cl, main="Lake Ice Extent 2017-2020", zlim=c(2,6))
+
+#2. Confronto tra LIE 2017 e LIE 2020
+LIE17 <- raster ("c_gls_LIE250_20170615.nc")
+LIE20 <- raster("c_gls_LIE250_20200314.nc")
+par(mfrow=c(1,2))
+plot (LIE17, col=cl, main="Ice Lake Extent 2017", cex=2, zlim=c(2,6))
+plot(LIE20, col=cl, main="Ice Lake Extent 2020", cex=2, zlim=c(2,6))
+
+#3. Differrenza tra LIE 2017 e LIE2020
+difLIE  <- LIE20-LIE17
+cldiff <- colorRampPalette(c('white', 'light blue', 'blue')) (150)
+plot(difLIE, col=cldiff, main=" DIFFERENZA LIE TRA IL 2020 E IL 2017", cex=2)
+
+#4. Previsione LIE 2025
+ext <-c( 4.99625, 45.00125, 44.99875, 71.00375)
+extension <- crop(LIE, ext)
+time <- 1:nlayers(LIE)
+fun <- function(x) {if (is.na(x[1])){ NA } else {lm(x ~ time)$coefficients[2] }} 
+predicted.LIE.2025 <- calc(extension, fun)
+#oppure source("prediction.r)
+
+#5. Crop 
+extension  <- c(30,40,58,62)
+croplake <- crop(LIE20, extension)
+plot(croplake, col =cl)
+
+#6. Classificazione in 4 classi
+classificazione <- unsuperClass(croplake, nClasses=4)
+#pacchetto RStoolbox
+clclass <- colorRampPalette(c(' white', 'light blue', 'blue', 'midnight blue')) (100)
+plot(classificazione$map, col=clclass, cex=3, main="Classificazione LIE in 4 classi")
+freq(classificazione$map)
+#     value   count
+#[1,]     1   98692 (neve)
+#[2,]     2  325726 (parzialmente ghiacciato)
+#[3,]     3  377926 (acqua)
+#[4,]     4 5597656 (terra)
+
+tot <-98692+325726+377926+5597656
+ tot
+#[1] 6400000
+
+percent1 <- 98692*100/6400000
+percent2 <-325726*100/6400000
+percent3 <- 377926*100/6400000
+percent4 <- 5597656*100/6400000
+percent1
+#[1] 1.542062
+percent2
+#[1] 5.089469
+percent3
+#[1] 5.905094
+percent4
+#[1] 87.46337
+
+cover <- c("zona ghiacciata", "zona parzialmente ghiacciata", "acqua", "suolo")
+percentuali<- c('1','5','6','88')
+output <- data.frame(cover, percentuali)
+View (output)
+plot(classificazione,  col=clclass, main="Classificazione in 4 classi")
+
+#7. Riclassificazione in 3 classi
+lake20rec <- reclassify(classificazione$map, cbind(4,NA))
+clrec<- colorRampPalette(c('cyan', 'dodger blue','blue'))(100)
+plot(lake20rec, col=clrec, main="Classificazione in tre classi", cex=4)
+freq(lake20rec)
+#  value   count
+#[1,]     1   98692
+#[2,]     2  325726
+#[3,]     3  377926
+#[4,]    NA 5597656
+
+totlake <- 98692+325726+ 377926
+totlake
+#[1] 802344
+
+percent120<-98692*100/802344
+percent220<- 325726*100/802344
+percent320<-377926*100/802344
+percent120
+#[1] 12.30046
+percent220
+#[1] 40.5968
+ percent320
+#[1] 47.10274
+
+cover <- c("zona ghiacciata", "zona parzialmente ghiacciata", "acqua")
+percentuali<- c('12','41','47')
+output <- data.frame(cover, percentuali)
+View (output)
+
+#8. Grafico percentuali 
+totlake20 <-c('12','41','47')
+plot(totlake20, col='dodger blue', pch=20, cex=3, main="Percentuali delle 3 classi", xlab="classi", ylab="percentuali")
+
+
 
 
 
