@@ -1531,7 +1531,15 @@ points(species[species$Occurrence == 1,], pch=16)
 ####################################################################################################################################
 ####################################################################################################################################
 
-###13. EXAM 
+###13. Exam
+
+library(raster)
+library(ncdf4) #per leggere i file con pattern .nc
+library(RStoolbox) #per la classificazione
+library(rgdal)
+
+setwd("C:/lab/progetto")
+
 
 
 
