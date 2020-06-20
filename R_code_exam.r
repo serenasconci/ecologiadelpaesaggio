@@ -1553,6 +1553,7 @@ plot(LIE, col=cl, main="Lake Ice Extent 2017-2020", zlim=c(2,6))
 #2. Confronto tra LIE 2017 e LIE 2020
 LIE17 <- raster ("c_gls_LIE250_20170615.nc")
 LIE20 <- raster("c_gls_LIE250_20200314.nc")
+#multiframe
 par(mfrow=c(1,2))
 plot (LIE17, col=cl, main="Ice Lake Extent 2017", cex=2, zlim=c(2,6))
 plot(LIE20, col=cl, main="Ice Lake Extent 2020", cex=2, zlim=c(2,6))
@@ -1640,10 +1641,6 @@ percentuali<- c('12','41','47')
 output <- data.frame(cover, percentuali)
 View (output)
 
-#8. Grafico percentuali 
-totlake20 <-c('12','41','47')
-plot(totlake20, col='dodger blue', pch=20, cex=3, main="Percentuali delle 3 classi", xlab="classi", ylab="percentuali")
-
 #9. Crop lake ice extent 2017
 extension <- c(30,40,58,62)
 croplake17 <- crop(LIE17,extension)
@@ -1709,14 +1706,20 @@ output <- data.frame(cover, percentuali)
 View (output)
 clrec<- colorRampPalette(c('blue', 'dodger blue','cyan'))(100)
 plot(lake17rec, col=clrec, main="Classificazione in 3 classi", cex=2)
-totlake17 <-c('2','17','81')
-plot(totlake17, col='dodger blue', pch=20, cex=3, main="Percentuali delle 3 classi", xlab="classi", ylab="percentuali")
 
-#12. Confronto percentuali LIE 17 e LIE 20
+
+#12. Multiframe percentuali LIE 17 e LIE 20
+totlake17 <-c('2','17','81')
+totlake20 <-c('12','41','47')
+
 par(mfrow=c(1,2))
 plot(totlake17, col='dodger blue', pch=20, cex=3, main="Percentuali delle 3 classi LIE 2017", xlab="classi", ylab="percentuali")
 plot(totlake20, col='dodger blue', pch=20, cex=3, main="Percentuali delle 3 classi LIE 2020", xlab="classi", ylab="percentuali")
 
+#l'analisi multitemporale effettuata sul crop del LIE 2017 e del LIE 2020 sui laghi della Russia, ha evidenziato che:
+#nel 2020 c'è stato un aumento dell'estensione del ghiaccio del 10% 
+#cè stato un aumento del ghiaccio temporaneo del 24%
+#c'è stata una diminuzione dell'estensione dell'acqua del 34%
 
 
 
