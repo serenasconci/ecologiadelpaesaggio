@@ -1716,7 +1716,7 @@ par(mfrow=c(1,2))
 plot(totlake17, col='dodger blue', pch=20, cex=3, main="Percentuali delle 3 classi LIE 2017", xlab="classi", ylab="percentuali")
 plot(totlake20, col='dodger blue', pch=20, cex=3, main="Percentuali delle 3 classi LIE 2020", xlab="classi", ylab="percentuali")
 
-#l'analisi multitemporale effettuata sul crop del LIE 2017 e del LIE 2020 sui laghi della Russia, ha evidenziato che:
+#l'analisi multitemporale effettuata sul crop del LIE 2017 e del LIE 2020 dei laghi della Russia, ha evidenziato che:
 #nel 2020 c'è stato un aumento dell'estensione del ghiaccio del 10% 
 #cè stato un aumento del ghiaccio temporaneo del 24%
 #c'è stata una diminuzione dell'estensione dell'acqua del 34%
