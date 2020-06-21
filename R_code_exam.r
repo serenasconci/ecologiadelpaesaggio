@@ -1605,7 +1605,7 @@ percent3
 percent4
 #[1] 87.46337
 
-cover <- c("ghiaccio", "ghiaccio temporaneo", "acqua", "suolo")
+cover <- c("Ghiaccio", "Ghiaccio temporaneo", "Acqua", "Suolo")
 percentuali<- c('1','5','6','88')
 output <- data.frame(cover, percentuali)
 View (output)
@@ -1636,7 +1636,7 @@ percent220
  percent320
 #[1] 47.10274
 
-cover <- c("ghiaccio", "ghiaccio temporaneo", "acqua")
+cover <- c("Ghiaccio", "Ghiaccio temporaneo", "Acqua")
 percentuali<- c('12','41','47')
 output <- data.frame(cover, percentuali)
 View (output)
@@ -1674,7 +1674,7 @@ percent3
 #[1] 10.78505
 percent4
 #[1] 86.71937
-cover <- c("ghiaccio", "ghiaccio temporaneo", "acqua", "suolo")
+cover <- c("Ghiaccio", "Ghiaccio temporaneo", "Acqua", "Suolo")
 percentuali<- c('0,3', '2,2', '10,8', '86,7')
 output <- data.frame(cover, percentuali)
 View (output)
@@ -1700,7 +1700,7 @@ percent2
 #[1] 16.7169
 percent3
 #[1] 81.20888
-cover <- c("ghiaccio", "ghiaccio temporaneo", "acqua")
+cover <- c("Ghiaccio", "Ghiaccio temporaneo", "Acqua")
 percentuali<- c('2','17','81')
 output <- data.frame(cover, percentuali)
 View (output)
